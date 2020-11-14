@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Gooball": {
+      "commandName": "Project",
+      "commandLineArgs": "run <project> -- with these args"
+    }
+  }
+}
