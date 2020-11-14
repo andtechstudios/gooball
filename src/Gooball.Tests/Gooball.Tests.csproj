@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Test Files\Example Unity Project\**" />
+    <Compile Remove="TestFiles\Example Unity Project\**" />
+    <EmbeddedResource Remove="Test Files\Example Unity Project\**" />
+    <EmbeddedResource Remove="TestFiles\Example Unity Project\**" />
+    <None Remove="Test Files\Example Unity Project\**" />
+    <None Remove="TestFiles\Example Unity Project\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gooball\Gooball.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Test Files\package.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Test Files\ProjectSettings\ProjectVersion.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /Y /S /E /I &quot;$(SolutionDir)TestFiles\*&quot; &quot;$(TargetDir)TestFiles\&quot;" />
+  </Target>
+
+</Project>
