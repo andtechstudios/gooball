@@ -13,7 +13,7 @@ namespace Gooball {
 		public string Target { get; set; }
 
 		// Inject options
-		[Option('h', "headerfile", HelpText = "The preamble text to inject.")]
+		[Option('h', "headerfile", HelpText = "A textfile containing the header text.")]
 		public string HeaderFilePath { get; set; }
 	}
 
