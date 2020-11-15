@@ -9,6 +9,10 @@ namespace Gooball {
 		public string Command { get; set; }
 		[Value(1, MetaName = "project-path", HelpText = "The path to the Unity project.")]
 		public string ProjectPath { get; set; }
+
+		// Run, Test options
+		[Option('e', "editor", HelpText = "A specific version of the Unity editor to use")]
+		public string EditorPath { get; set; }
 	}
 
 	internal static class ProjectOperation {
@@ -19,12 +23,28 @@ namespace Gooball {
 			var project = Project.Read(projectPath);
 
 			switch (options.Command) {
+				case "run":
+					Run();
+					break;
+				case "test":
+					Test();
+					break;
 				case "get-version":
 					GetProjectVersion();
 					break;
 				case "get-editor-version":
 					GetProjectEditorVersion();
 					break;
+			}
+
+			void Run() {
+				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
+				new UnityRunner(unityArgs).Build(project);
+			}
+
+			void Test() {
+				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
+				new UnityRunner(unityArgs).Test(project);
 			}
 
 			void GetProjectVersion() {

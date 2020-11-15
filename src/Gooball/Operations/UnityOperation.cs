@@ -1,43 +1,39 @@
 ﻿using CommandLine;
+using System;
 
 namespace Gooball {
 
-	[Verb("build", HelpText = "Build a Unity project.")]
-	internal class UnityBuildOperation {
-		[Value(0, Required = true, MetaName = "project-path", HelpText = "The path to the Unity project.")]
-		public string ProjectPath { get; set; }
+	[Verb("unity", HelpText = "Commands for working with installations of the Unity editor.")]
+	internal class UnityOptions {
+		[Value(0, Required = true, MetaName = "command", HelpText = "The editor action to perform.")]
+		public string Command { get; set; }
 
-		[Option('e', "editor", HelpText = "A specific version of the Unity editor to use")]
-		public string EditorPath { get; set; }
+		// List-Installs options
+		[Option("install-path", HelpText = "The editor installation location.")]
+		public string Path { get; set; }
 	}
 
-	[Verb("test", HelpText = "Test a Unity project.")]
-	internal class UnityTestOperation {
-		[Value(0, Required = true, MetaName = "project-path", HelpText = "The path to the Unity project.")]
-		public string ProjectPath { get; set; }
+	internal static class UnityOperation {
 
-		[Option('e', "editor", HelpText = "A specific version of the Unity editor to use")]
-		public string EditorPath { get; set; }
+		[Operation(typeof(UnityOptions))]
+		public static void OnParse(UnityOptions options) {
+			switch (options.Command) {
+				case "list-installs":
+					ListEditorInstalls();
+					break;
+			}
 
-	}
-
-	internal static class BuildOperation {
-
-		[Operation(typeof(UnityBuildOperation))]
-		public static void OnParse(UnityBuildOperation options) {
-			var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-			var project = Project.Read(options.ProjectPath);
-			new UnityRunner(unityArgs).Build(project);
-		}
-	}
-
-	internal static class TestOperation {
-
-		[Operation(typeof(UnityTestOperation))]
-		public static void OnParse(UnityTestOperation options) {
-			var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-			var project = Project.Read(options.ProjectPath);
-			new UnityRunner(unityArgs).Test(project);
+			void ListEditorInstalls() {
+				UnityInstallationHelper helper;
+				if (options.Path is null) {
+					helper = new UnityInstallationHelper();
+				}
+				else {
+					helper = new UnityInstallationHelper(options.Path);
+				}
+				var editors = helper.GetInstalledEditors();
+				Console.WriteLine(string.Join(Environment.NewLine, editors));
+			}
 		}
 	}
 }
