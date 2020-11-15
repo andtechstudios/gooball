@@ -10,6 +10,10 @@ namespace Gooball {
 		[Value(0, Required = true, MetaName = "command", HelpText = "The package action to perform.")]
 		public string Command { get; set; }
 
+		[Value(1, MetaName = "package-path", HelpText = "The path to the package manifest.")]
+		public string PackagePath { get; set; }
+
+		// Bump options
 		[Option("major", HelpText = "Increment the major version code.")]
 		public bool IncrementMajor { get; set; }
 		[Option("minor", HelpText = "Increment the minor version code.")]
@@ -17,10 +21,7 @@ namespace Gooball {
 		[Option("patch", HelpText = "Increment the patch version code.")]
 		public bool IncrementPatch { get; set; }
 
-		[Value(1, MetaName = "package-path", HelpText = "The path to the package manifest.")]
-		public string PackagePath { get; set; }
-
-		// Hide operation only
+		// Hide options
 		[Value(2, MetaName = "folder", HelpText = "The folder hide in the manifest.")]
 		public string FolderPath { get; set; }
 	}
