@@ -23,8 +23,8 @@ namespace Gooball {
 			var project = Project.Read(projectPath);
 
 			switch (options.Command) {
-				case "run":
-					Run();
+				case "build":
+					Build();
 					break;
 				case "test":
 					Test();
@@ -37,7 +37,7 @@ namespace Gooball {
 					break;
 			}
 
-			void Run() {
+			void Build() {
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
 				new UnityRunner(unityArgs).Build(project);
 			}
