@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace Gooball.Tests {
 
-	public class OtherTests : GooballTests {
+	public class TransformationTests : GooballTests {
 
 		[Test]
 		public void HideFolder() {
 			var folderPath = Path.Combine(ExamplePackageRoot, "Samples");
 			var metafilePath = Path.ChangeExtension(folderPath, ".meta");
 
-			Interpreter.Instance.Run(new string[] { "hide-folder", folderPath });
+			Interpreter.Instance.Run(new string[] { "transform", "hide-folder", folderPath });
 
 			Assert.IsFalse(Directory.Exists(folderPath));
 			Assert.IsTrue(Directory.Exists(folderPath + "~"));
@@ -24,7 +24,7 @@ namespace Gooball.Tests {
 			var filePath = Path.Combine(ExampleProjectRoot, "Assets/Scripts/Script.cs");
 			var headerPath = Path.Combine("TestFiles", "preamble.txt");
 
-			Interpreter.Instance.Run(new string[] { "inject", "--headerfile", headerPath, filePath });
+			Interpreter.Instance.Run(new string[] { "transform", "inject", "--headerfile", headerPath, filePath });
 
 			var header = File.ReadAllText(headerPath);
 			var contents = File.ReadAllText(filePath);
