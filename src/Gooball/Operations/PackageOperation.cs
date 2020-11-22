@@ -22,7 +22,7 @@ namespace Gooball {
 		public bool IncrementPatch { get; set; }
 
 		// Hide options
-		[Value(2, MetaName = "folder", HelpText = "The folder hide in the manifest.")]
+		[Value(2, MetaName = "folder", HelpText = "The folder hide in the manifest. (Relative to the package root)")]
 		public string FolderPath { get; set; }
 	}
 
@@ -74,10 +74,8 @@ namespace Gooball {
 		}
 
 		private static void Ignore(Package package, string folderPath) {
-			var relativeFolderPath = Path.GetRelativePath(package.Path, folderPath);
-
 			foreach (var sample in package.Samples) {
-				var destination = HideFolderInPath(relativeFolderPath, sample.Path);
+				var destination = HideFolderInPath(folderPath, sample.Path);
 				sample.Path = destination;
 			}
 
