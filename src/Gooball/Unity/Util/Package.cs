@@ -44,7 +44,7 @@ namespace Gooball {
 				IndentChar = '\t'
 			};
 
-			serializer.Serialize(tw, package);
+			serializer.Serialize(tw, package.Manifest);
 		}
 	}
 }
