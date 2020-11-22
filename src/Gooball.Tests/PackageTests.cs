@@ -53,7 +53,7 @@ namespace Gooball.Tests {
 
 		[Test]
 		public void HideSamples() {
-			Interpreter.Instance.Run(new string[] { "package", "ignore-folder", ExamplePackageRoot, Path.Combine(ExamplePackageRoot, "Samples") });
+			Interpreter.Instance.Run(new string[] { "package", "ignore-folder", ExamplePackageRoot, "Samples" });
 
 			var regex = PathUtility.FolderRegex("Samples");
 			var package = Package.Read(ExamplePackageRoot);
