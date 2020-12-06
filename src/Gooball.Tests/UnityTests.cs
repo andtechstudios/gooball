@@ -13,11 +13,9 @@ namespace Gooball.Tests {
 
 		[Test]
 		public void ListInstalls() {
-			var stream = OpenTestStream();
+			Action action = () => Interpreter.Instance.Run(new string[] { "unity", "list-installs", "--install-path", ExampleEditorInstallRoot });
 
-			Interpreter.Instance.Run(new string[] { "unity", "list-installs", "--install-path", ExampleEditorInstallRoot });
-
-			CollectionAssert.AreEquivalent(EDITORS, stream.ToString().Split(stream.NewLine, StringSplitOptions.RemoveEmptyEntries));
+			AssertConsoleEquals(EDITORS, action);
 		}
 	}
 }

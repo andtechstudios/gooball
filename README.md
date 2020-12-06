@@ -31,48 +31,58 @@ goo <CATEGORY> <COMMAND> [<OPTIONS>] <ARGUMENTS>
 | -: | :-: | :- |
 | Project | `project` | Manage a Unity project. |
 | Package Development |`package` | Manage a custom Unity package. |
-| Unity | `unity` | Access information about installed Unity editors. |
+| Unity | `unity` | Project-independent unity operations. |
 | File Transformation | `transform` | Properly manipulate a Unity file/folder. |
 
 ### I. Project Commands
 #### Build a Unity Project
 ```
-goo project build <PROJECT_PATH> [(-x | --editor) <EDITOR_PATH>] [-- <ARGS...>]
+goo project build [--editor <EDITOR_PATH>] [<PROJECT_PATH>] [-- <ARGS...>]
 ```
+- If `PROJECT_PATH` is not provided, the current directory is used as the project path
 - Use the `editor` option to use a specific version of the Unity editor
--  `ARGS...` will be passed as arguments to `unity.exe`
+- `ARGS...` will be passed as arguments to `unity.exe`
 
 #### Run Tests on a Unity Project
 ```
-goo project test <PROJECT_PATH> [(-x | --editor) <EDITOR_PATH>] [-- <ARGS...>]
+goo project test [--editor <EDITOR_PATH>] [<PROJECT_PATH>] [-- <ARGS...>]
 ```
+- If `PROJECT_PATH` is not provided, the current directory is used as the project path
 - Use the `editor` option to use a specific version of the Unity editor
--  `ARGS...` will be passed as arguments to `unity.exe`
+- `ARGS...` will be passed as arguments to `unity.exe`
+
+#### Open a Unity Project
+```
+goo project open [--editor <EDITOR_PATH>] [<PROJECT_PATH>] [-- <ARGS...>]
+```
+- If `PROJECT_PATH` is not provided, the current directory is used as the project path
+- Use the `editor` option to use a specific version of the Unity editor
+- `ARGS...` will be passed as arguments to `unity.exe`
 
 #### Print the Version of a Unity Project
 ```
-goo project get-version <PROJECT_PATH>
+goo project get-version [<PROJECT_PATH>]
 ```
 
 #### Print the Editor Version of a Unity Project
 ```
-goo project get-editor-version <PROJECT_PATH>
+goo project get-editor-version [<PROJECT_PATH>]
 ```
 
 ### II. Package Commands
 #### Print the Version of a Package
 ```
-goo package get-version <PROJECT_PATH>
+goo package get-version [<PACKAGE_PATH>]
 ```
 
 #### Ignore a Folder in a Package Manifest
 ```
-goo package ignore-folder <PROJECT_PATH> <FOLDER_PATH>
+goo package ignore-folder <PACKAGE_PATH> <FOLDER_PATH>
 ```
 
 #### Bump the Version of a Package
 ```
-goo package bump (--major | --minor | --patch) <PROJECT_PATH>
+goo package bump (--major | --minor | --patch) [<PACKAGE_PATH>]
 ```
 
 ### III. Unity Commands
@@ -98,7 +108,10 @@ Examples
 File argument example
 > goo transform inject Program.cs licenseHeader.txt
 
-I/O redirection example
+Stream redirection example
 > cat licenseHeader.txt | goo transform inject Program.cs
 ```
 
+## Links
+[NuGet Gallery](https://www.nuget.org/packages/Gooball/)
+[GitHub](https://github.com/AndrewMJordan/gooball)

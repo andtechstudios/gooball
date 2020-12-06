@@ -9,8 +9,7 @@ namespace Gooball {
 	internal class PackageOptions {
 		[Value(0, Required = true, MetaName = "command", HelpText = "The package action to perform.")]
 		public string Command { get; set; }
-
-		[Value(1, MetaName = "package-path", HelpText = "The path to the package manifest.")]
+		[Value(1, Required = false, Default = "./", MetaName = "package-path", HelpText = "The path to the package.")]
 		public string PackagePath { get; set; }
 
 		// Bump options
