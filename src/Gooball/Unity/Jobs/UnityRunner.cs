@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Gooball {
 
@@ -10,26 +11,37 @@ namespace Gooball {
 			Args = args;
 		}
 
-		public void Build(Project project) {
+		public void Open(Project project) {
 			var helper = new UnityInstallationHelper();
-			var args = GetDefaultArgs(project);
+			var args = new Queue<string>(Args);
+			if (Args.ProjectPath is null) {
+				args.Enqueue($"-projectPath \"{project.Path}\"");
+			}
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, project.Path, string.Join(' ', args));
+			Run(editorPath, string.Join(' ', args), false);
+		}
+
+		public void Build(Project project) {
+			var helper = new UnityInstallationHelper();
+			var args = GetDefaultArgsBatch(project);
+
+			var editorPath = helper.GetBestEditor(project.EditorVersion);
+			Run(editorPath, string.Join(' ', args));
 		}
 
 		public void Test(Project project) {
 			var helper = new UnityInstallationHelper();
-			var args = GetDefaultArgs(project);
+			var args = GetDefaultArgsBatch(project);
 			if (!Args.RunTests) {
 				args.Enqueue($"-runTests");
 			}
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, project.Path, string.Join(' ', args));
+			Run(editorPath, string.Join(' ', args));
 		}
 
-		private Queue<string> GetDefaultArgs(Project project) {
+		private Queue<string> GetDefaultArgsBatch(Project project) {
 			var args = new Queue<string>();
 			if (!Args.BatchMode) {
 				args.Enqueue($"-batchMode");
@@ -47,7 +59,15 @@ namespace Gooball {
 			return args;
 		}
 
-		private void Run(string editorPath, string projectPath, string args) {
+		public void Execute() {
+			var helper = new UnityInstallationHelper();
+			var args = Args;
+
+			var editorPath = UnityInstallationHelper.GetExecutablePath(helper.GetInstalledEditors().First());
+			Run(editorPath, string.Join(' ', args));
+		}
+
+		private void Run(string editorPath, string args, bool waitForExit = true) {
 			using (var process = new Process()) {
 				process.StartInfo.FileName = editorPath;
 				process.StartInfo.UseShellExecute = false;
@@ -55,7 +75,8 @@ namespace Gooball {
 				process.StartInfo.Arguments = args;
 				process.Start();
 
-				process.WaitForExit();
+				if (waitForExit)
+					process.WaitForExit();
 			}
 		}
 	}

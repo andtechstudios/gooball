@@ -22,7 +22,7 @@ namespace Gooball.Tests {
 		[Test]
 		public void InjectOperations() {
 			var filePath = Path.Combine(ExampleProjectRoot, "Assets/Scripts/Script.cs");
-			var headerPath = Path.Combine("TestFiles", "preamble.txt");
+			var headerPath = "preamble.txt";
 
 			Interpreter.Instance.Run(new string[] { "transform", "inject", "--headerfile", headerPath, filePath });
 

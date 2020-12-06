@@ -3,7 +3,7 @@ using System;
 
 namespace Gooball {
 
-	[Verb("unity", HelpText = "Commands for working with installations of the Unity editor.")]
+	[Verb("unity", HelpText = "Project-independent Unity commands.")]
 	internal class UnityOptions {
 		[Value(0, Required = true, MetaName = "command", HelpText = "The editor action to perform.")]
 		public string Command { get; set; }
@@ -18,9 +18,17 @@ namespace Gooball {
 		[Operation(typeof(UnityOptions))]
 		public static void OnParse(UnityOptions options) {
 			switch (options.Command) {
+				case "run":
+					Run();
+					break;
 				case "list-installs":
 					ListEditorInstalls();
 					break;
+			}
+
+			void Run() {
+				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
+				new UnityRunner(unityArgs).Execute();
 			}
 
 			void ListEditorInstalls() {

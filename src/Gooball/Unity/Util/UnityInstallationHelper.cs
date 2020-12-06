@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Gooball {
 
@@ -19,7 +20,7 @@ namespace Gooball {
 		private readonly Queue<string> editorRoots;
 
 		public UnityInstallationHelper() {
-			this.editorRoots = new Queue<string>(DEFAULT_PATHS);
+			editorRoots = new Queue<string>(DEFAULT_PATHS);
 		}
 
 		public UnityInstallationHelper(string editorInstallationRoot) {
@@ -28,7 +29,13 @@ namespace Gooball {
 		}
 
 		public IEnumerable<string> GetInstalledEditors() {
-			foreach (var editorRoot in editorRoots) {
+			var windowsDriveRegex = new Regex("^C:");
+
+			var wsl = editorRoots.Where(x => windowsDriveRegex.IsMatch(x)).Select(x => windowsDriveRegex.Replace(x, "/mnt/c"));
+			var roots = editorRoots
+				.Concat(wsl);
+
+			foreach (var editorRoot in roots) {
 				try {
 					var editors = GetInstalledEditors(editorRoot);
 					if (editors.Any()) {
@@ -52,9 +59,13 @@ namespace Gooball {
 				directory = installedEditors.First();
 			}
 
-			return Path.Join(directory, "Editor/Unity.exe");
+			return GetExecutablePath(directory);
 
 			bool Match(string path) => Path.GetFileName(path) == projectVersion;
+		}
+
+		public static string GetExecutablePath(string directory) {
+			return Path.Join(directory, "Editor/Unity.exe");
 		}
 
 		private IEnumerable<string> GetInstalledEditors(string root) {

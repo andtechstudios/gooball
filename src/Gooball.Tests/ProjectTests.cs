@@ -1,4 +1,6 @@
 using NUnit.Framework;
+using System;
+using System.IO;
 
 namespace Gooball.Tests {
 
@@ -8,11 +10,19 @@ namespace Gooball.Tests {
 
 		[Test]
 		public void GetProjectVersion() {
-			var stream = OpenTestStream();
+			Action action = () => Interpreter.Instance.Run(new string[] { "project", "get-version", ExampleProjectRoot });
 
-			Interpreter.Instance.Run(new string[] { "project", "get-version", ExampleProjectRoot });
+			AssertConsoleEquals(PROJECT_VERSION, action);
+		}
 
-			Assert.AreEqual(PROJECT_VERSION, stream.ToString().Trim());
+		[Test]
+		public void GetProjectInfoImplicit() {
+			Action action = () => {
+				Directory.SetCurrentDirectory(ExampleProjectRoot);
+				Interpreter.Instance.Run(new string[] { "project", "get-version" });
+			};
+
+			AssertConsoleEquals(PROJECT_VERSION, action);
 		}
 
 		[Test]
