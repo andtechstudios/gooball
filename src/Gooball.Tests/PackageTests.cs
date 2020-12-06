@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -14,20 +15,21 @@ namespace Gooball.Tests {
 			Package.Write(package);
 		}
 
-		[TearDown]
-		public void RevertPackageVersion() {
-			var package = Package.Read(ExamplePackageRoot);
-			package.Version = PACKAGE_VERSION;
-			Package.Write(package);
+		[Test]
+		public void GetPackageVersion() {
+			Action action = () => Interpreter.Instance.Run(new string[] { "package", "get-version", ExamplePackageRoot });
+
+			AssertConsoleEquals(PACKAGE_VERSION, action);
 		}
 
 		[Test]
-		public void GetPackageVersion() {
-			var stream = OpenTestStream();
+		public void GetPackageVersionImplicit() {
+			Action action = () => {
+				Directory.SetCurrentDirectory(ExamplePackageRoot);
+				Interpreter.Instance.Run(new string[] { "package", "get-version" });
+			};
 
-			Interpreter.Instance.Run(new string[] { "package", "get-version", ExamplePackageRoot });
-
-			Assert.AreEqual(PACKAGE_VERSION, stream.ToString().Trim());
+			AssertConsoleEquals(PACKAGE_VERSION, action);
 		}
 
 		[Test]
