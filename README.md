@@ -59,6 +59,11 @@ goo project open [--editor <EDITOR_PATH>] [<PROJECT_PATH>] [-- <ARGS...>]
 - Use the `editor` option to use a specific version of the Unity editor
 - `ARGS...` will be passed as arguments to `unity.exe`
 
+Examples
+```
+Open Unity project in background
+> goo project open "My Game" &
+```
 #### Print the Version of a Unity Project
 ```
 goo project get-version [<PROJECT_PATH>]
@@ -113,5 +118,5 @@ Stream redirection example
 ```
 
 ## Links
-[NuGet Gallery](https://www.nuget.org/packages/Gooball/)
-[GitHub](https://github.com/AndrewMJordan/gooball)
+- [NuGet Gallery](https://www.nuget.org/packages/Gooball/)
+- [GitHub](https://github.com/AndrewMJordan/gooball)

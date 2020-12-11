@@ -19,7 +19,7 @@ namespace Gooball {
 			}
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, string.Join(' ', args), false);
+			Run(editorPath, string.Join(' ', args));
 		}
 
 		public void Build(Project project) {
@@ -67,7 +67,7 @@ namespace Gooball {
 			Run(editorPath, string.Join(' ', args));
 		}
 
-		private void Run(string editorPath, string args, bool waitForExit = true) {
+		private void Run(string editorPath, string args) {
 			using (var process = new Process()) {
 				process.StartInfo.FileName = editorPath;
 				process.StartInfo.UseShellExecute = false;
@@ -75,8 +75,7 @@ namespace Gooball {
 				process.StartInfo.Arguments = args;
 				process.Start();
 
-				if (waitForExit)
-					process.WaitForExit();
+				process.WaitForExit();
 			}
 		}
 	}
