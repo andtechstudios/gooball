@@ -1,39 +1,79 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 
-namespace Gooball {
-
-	/// <summary>
-	/// A manifest file of a custom Unity package.
-	/// </summary>
-	public class PackageManifest {
+namespace Gooball
+{
+    /// <summary>
+    /// A manifest file of a Unity package.
+    /// </summary>  
+    public class PackageManifest
+    {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
+
         [JsonProperty("version")]
-		public string Version { get; set; }
+        public string Version { get; set; } = string.Empty;
+
         [JsonProperty("displayName")]
-		public string DisplayName { get; set; }
-		[JsonProperty("description")]
-		public string Description { get; set; }
-		[JsonProperty("author")]
-		public PackageAuthor Author { get; set; }
-		[JsonProperty("samples")]
-		public List<PackageSample> Samples { get; set; }
+        public string DisplayName { get; set; } = string.Empty;
 
-		public class PackageAuthor {
-			[JsonProperty("name")]
-			public string Name { get; set; }
-			[JsonProperty("email")]
-			public string Email { get; set; }
-		}
+        [JsonProperty("description")]
+        public string Description { get; set; } = string.Empty;
 
-		public class PackageSample {
-			[JsonProperty("displayName")]
-			public string DisplayName { get; set; }
-			[JsonProperty("Description")]
-			public string Description { get; set; }
-			[JsonProperty("path")]
-			public string Path { get; set; }
-		}
+        [JsonProperty("unity")]
+        public string Unity { get; set; } = string.Empty;
+
+        [JsonProperty("unityRelease")]
+        public string UnityRelease { get; set; } = string.Empty;
+
+        [JsonProperty("repository")]
+        public string Repository { get; set; } = string.Empty;
+
+        [JsonProperty("license")]
+        public string License { get; set; } = string.Empty;
+
+        [JsonProperty("dependencies")]
+        public Dependencies Dependencies { get; set; }
+
+        [JsonProperty("keywords")]
+        public string[] Keywords { get; set; }
+
+        [JsonProperty("author")]
+        public Author Author { get; set; }
+
+        [JsonProperty("samples")]
+        public Sample[] Samples { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; } = string.Empty;
+    }
+
+    public partial class Author
+    {
+        [JsonProperty("name")]
+        public string Name { get; set; } = string.Empty;
+
+        [JsonProperty("email")]
+        public string Email { get; set; } = string.Empty;
+
+        [JsonProperty("url")]
+        public string Url { get; set; } = string.Empty;
+    }
+
+    public partial class Dependencies
+    {
+        [JsonProperty("com.andtech.core")]
+        public string ComAndtechCore { get; set; } = string.Empty;
+    }
+
+    public partial class Sample
+    {
+        [JsonProperty("displayName")]
+        public string DisplayName { get; set; } = string.Empty;
+
+        [JsonProperty("Description")]
+        public string Description { get; set; } = string.Empty;
+
+        [JsonProperty("path")]
+        public string Path { get; set; } = string.Empty;
     }
 }

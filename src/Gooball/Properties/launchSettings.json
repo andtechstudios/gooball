@@ -1,8 +1,7 @@
 {
   "profiles": {
     "Gooball": {
-      "commandName": "Project",
-      "commandLineArgs": "project open \"C:\\Users\\andrew\\workspaces\\datamine-studios\\example-android\\Andrewoid\" -- -logfile log.txt"
+      "commandName": "Project"
     }
   }
 }

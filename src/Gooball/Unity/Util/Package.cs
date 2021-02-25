@@ -14,7 +14,7 @@ namespace Gooball {
 			get => Manifest.Version;
 			set => Manifest.Version = value;
 		}
-		public List<PackageSample> Samples => Manifest.Samples;
+		public Sample[] Samples => Manifest.Samples;
 
 		private string ManifestPath => System.IO.Path.Join(Path, "package.json");
 		private readonly PackageManifest Manifest;

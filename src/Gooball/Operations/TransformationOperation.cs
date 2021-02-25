@@ -53,10 +53,8 @@ namespace Gooball {
 
 				void HideMetaFile() {
 					var source = Path.ChangeExtension(folderPath, ".meta");
-					if (!File.Exists(source))
-						throw new DirectoryNotFoundException(source);
-
-					File.Delete(source);
+					if (File.Exists(source))
+						File.Delete(source);
 				}
 			}
 		}
