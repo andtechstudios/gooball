@@ -1,10 +1,12 @@
 ﻿using CommandLine;
 using System;
 
-namespace Gooball {
+namespace Gooball
+{
 
 	[Verb("project", HelpText = "Commands for working with Unity projects.")]
-	internal class ProjectOptions {
+	internal class ProjectOptions
+	{
 		[Value(0, Required = true, MetaName = "command", HelpText = "The project action to perform.")]
 		public string Command { get; set; }
 		[Value(1, Required = false, Default = "./", HelpText = "The path to the Unity project.")]
@@ -15,14 +17,17 @@ namespace Gooball {
 		public string EditorPath { get; set; }
 	}
 
-	internal static class ProjectOperation {
+	internal static class ProjectOperation
+	{
 
 		[Operation(typeof(ProjectOptions))]
-		public static void OnParse(ProjectOptions options) {
+		public static void OnParse(ProjectOptions options)
+		{
 			var projectPath = options.ProjectPath;
 			var project = Project.Read(projectPath);
 
-			switch (options.Command) {
+			switch (options.Command)
+			{
 				case "open":
 					Open();
 					break;
@@ -40,26 +45,31 @@ namespace Gooball {
 					break;
 			}
 
-			void Open() {
+			void Open()
+			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
 				new UnityRunner(unityArgs).Open(project);
 			}
 
-			void Build() {
+			void Build()
+			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
 				new UnityRunner(unityArgs).Build(project);
 			}
 
-			void Test() {
+			void Test()
+			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
 				new UnityRunner(unityArgs).Test(project);
 			}
 
-			void GetProjectVersion() {
+			void GetProjectVersion()
+			{
 				Console.WriteLine(project.Version);
 			}
 
-			void GetProjectEditorVersion() {
+			void GetProjectEditorVersion()
+			{
 				Console.WriteLine(project.EditorVersion);
 			}
 		}

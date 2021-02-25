@@ -3,10 +3,12 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Gooball {
+namespace Gooball
+{
 
 	[Verb("package", HelpText = "Commands for working with custom Unity packages.")]
-	internal class PackageOptions {
+	internal class PackageOptions
+	{
 		[Value(0, Required = true, MetaName = "command", HelpText = "The package action to perform.")]
 		public string Command { get; set; }
 		[Value(1, Required = false, Default = "./", MetaName = "package-path", HelpText = "The path to the package.")]
@@ -25,14 +27,17 @@ namespace Gooball {
 		public string FolderPath { get; set; }
 	}
 
-	internal static class PackageOperation {
+	internal static class PackageOperation
+	{
 
 		[Operation(typeof(PackageOptions))]
-		public static void OnParse(PackageOptions options) {
+		public static void OnParse(PackageOptions options)
+		{
 			var packagePath = options.PackagePath;
 			var package = Package.Read(packagePath);
 
-			switch (options.Command) {
+			switch (options.Command)
+			{
 				case "get-version":
 					GetVersion();
 					break;
@@ -44,20 +49,24 @@ namespace Gooball {
 					break;
 			}
 
-			void GetVersion() {
+			void GetVersion()
+			{
 				Console.WriteLine(package.Version);
 			}
 
-			void IgnoreFolder() {
+			void IgnoreFolder()
+			{
 				Ignore(package, options.FolderPath);
 				Package.Write(package);
 			}
 
-			void Bump() {
+			void Bump()
+			{
 				package.Increment(GetVersionMask());
 				Package.Write(package);
 
-				VersionFlag GetVersionMask() {
+				VersionFlag GetVersionMask()
+				{
 					if (options.IncrementMajor)
 						return VersionFlag.Major;
 
@@ -72,15 +81,19 @@ namespace Gooball {
 			}
 		}
 
-		private static void Ignore(Package package, string folderPath) {
-			foreach (var sample in package.Samples) {
+		private static void Ignore(Package package, string folderPath)
+		{
+			foreach (var sample in package.Samples)
+			{
 				var destination = HideFolderInPath(folderPath, sample.Path);
 				sample.Path = destination;
 			}
 
-			string HideFolderInPath(string folderPath, string path) {
+			string HideFolderInPath(string folderPath, string path)
+			{
 				var folderName = Path.GetFileName(folderPath);
-				MatchEvaluator evaluator = m => {
+				MatchEvaluator evaluator = m =>
+				{
 					var chunk = m.Value;
 					var p = Regex.Replace(chunk, folderName, folderName + "~");
 

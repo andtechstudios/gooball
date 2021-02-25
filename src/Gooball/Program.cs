@@ -1,9 +1,12 @@
 ﻿
-namespace Gooball {
+namespace Gooball
+{
 
-	internal class Program {
+	internal class Program
+	{
 
-		private static void Main(string[] args) {
+		private static void Main(string[] args)
+		{
 			Interpreter.Instance.Run(args);
 		}
 	}

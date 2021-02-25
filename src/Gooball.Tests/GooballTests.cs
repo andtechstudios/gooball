@@ -4,34 +4,41 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Gooball {
+namespace Gooball
+{
 
-	public class GooballTests {
+	public class GooballTests
+	{
 		protected static readonly string ExampleProjectRoot = @"Example Unity Project";
 		protected static readonly string ExamplePackageRoot = @"Example Unity Project/Assets/Standard Assets/Example Package";
 		protected static readonly string ExampleEditorInstallRoot = @"Editor Installations/Unity/Hub/Editor";
 
 		[SetUp]
-		public void Initialize() {
+		public void Initialize()
+		{
 			var testDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles");
 			Directory.SetCurrentDirectory(testDirectory);
 		}
 
-		private TextWriter OpenOut() {
+		private TextWriter OpenOut()
+		{
 			var writer = new StringWriter();
 			Console.SetOut(writer);
 
 			return writer;
 		}
 
-		private void CloseOut() {
-			var standardOutput = new StreamWriter(Console.OpenStandardOutput()) {
+		private void CloseOut()
+		{
+			var standardOutput = new StreamWriter(Console.OpenStandardOutput())
+			{
 				AutoFlush = true
 			};
 			Console.SetOut(standardOutput);
 		}
 
-		protected void AssertConsoleEquals(string expected, Action action) {
+		protected void AssertConsoleEquals(string expected, Action action)
+		{
 			var stream = OpenOut();
 			action();
 			CloseOut();
@@ -39,7 +46,8 @@ namespace Gooball {
 			Assert.AreEqual(expected, stream.ToString().Trim());
 		}
 
-		protected void AssertConsoleEquals(IEnumerable<string> expected, Action action) {
+		protected void AssertConsoleEquals(IEnumerable<string> expected, Action action)
+		{
 			var stream = OpenOut();
 			action();
 			CloseOut();

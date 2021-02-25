@@ -1,7 +1,9 @@
 ﻿
-namespace Gooball {
+namespace Gooball
+{
 
-	internal enum CommentStyle {
+	internal enum CommentStyle
+	{
 		Singleline,
 		Multiline
 	}

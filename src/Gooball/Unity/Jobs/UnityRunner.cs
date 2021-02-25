@@ -2,19 +2,24 @@
 using System.Diagnostics;
 using System.Linq;
 
-namespace Gooball {
+namespace Gooball
+{
 
-	internal class UnityRunner {
+	internal class UnityRunner
+	{
 		public readonly UnityArgs Args;
 
-		public UnityRunner(UnityArgs args) {
+		public UnityRunner(UnityArgs args)
+		{
 			Args = args;
 		}
 
-		public void Open(Project project) {
+		public void Open(Project project)
+		{
 			var helper = new UnityInstallationHelper();
 			var args = new Queue<string>(Args);
-			if (Args.ProjectPath is null) {
+			if (Args.ProjectPath is null)
+			{
 				args.Enqueue($"-projectPath \"{project.Path}\"");
 			}
 
@@ -22,7 +27,8 @@ namespace Gooball {
 			Run(editorPath, string.Join(' ', args));
 		}
 
-		public void Build(Project project) {
+		public void Build(Project project)
+		{
 			var helper = new UnityInstallationHelper();
 			var args = GetDefaultArgsBatch(project);
 
@@ -30,10 +36,12 @@ namespace Gooball {
 			Run(editorPath, string.Join(' ', args));
 		}
 
-		public void Test(Project project) {
+		public void Test(Project project)
+		{
 			var helper = new UnityInstallationHelper();
 			var args = GetDefaultArgsBatch(project);
-			if (!Args.RunTests) {
+			if (!Args.RunTests)
+			{
 				args.Enqueue($"-runTests");
 			}
 
@@ -41,25 +49,31 @@ namespace Gooball {
 			Run(editorPath, string.Join(' ', args));
 		}
 
-		private Queue<string> GetDefaultArgsBatch(Project project) {
+		private Queue<string> GetDefaultArgsBatch(Project project)
+		{
 			var args = new Queue<string>();
-			if (!Args.BatchMode) {
+			if (!Args.BatchMode)
+			{
 				args.Enqueue($"-batchMode");
 			}
-			if (!Args.Quit) {
+			if (!Args.Quit)
+			{
 				args.Enqueue($"-quit");
 			}
-			if (Args.ProjectPath is null) {
+			if (Args.ProjectPath is null)
+			{
 				args.Enqueue($"-projectPath \"{project.Path}\"");
 			}
-			foreach (var argument in Args) {
+			foreach (var argument in Args)
+			{
 				args.Enqueue(argument);
 			}
 
 			return args;
 		}
 
-		public void Execute() {
+		public void Execute()
+		{
 			var helper = new UnityInstallationHelper();
 			var args = Args;
 
@@ -67,8 +81,10 @@ namespace Gooball {
 			Run(editorPath, string.Join(' ', args));
 		}
 
-		private void Run(string editorPath, string args) {
-			using (var process = new Process()) {
+		private void Run(string editorPath, string args)
+		{
+			using (var process = new Process())
+			{
 				process.StartInfo.FileName = editorPath;
 				process.StartInfo.UseShellExecute = false;
 				process.StartInfo.RedirectStandardOutput = true;

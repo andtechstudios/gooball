@@ -1,16 +1,17 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.IO;
-using static Gooball.PackageManifest;
 
-namespace Gooball {
+namespace Gooball
+{
 
 	/// <summary>
 	/// A custom Unity package.
 	/// </summary>
-	public class Package {
+	public class Package
+	{
 		public readonly string Path;
-		public string Version {
+		public string Version
+		{
 			get => Manifest.Version;
 			set => Manifest.Version = value;
 		}
@@ -19,12 +20,14 @@ namespace Gooball {
 		private string ManifestPath => System.IO.Path.Join(Path, "package.json");
 		private readonly PackageManifest Manifest;
 
-		private Package(string path, PackageManifest manifest) {
+		private Package(string path, PackageManifest manifest)
+		{
 			Path = path;
 			Manifest = manifest;
 		}
 
-		public static Package Read(string packagePath) {
+		public static Package Read(string packagePath)
+		{
 			var manifestPath = System.IO.Path.Join(packagePath, "package.json");
 
 			var json = File.ReadAllText(manifestPath);
@@ -33,8 +36,10 @@ namespace Gooball {
 			return package;
 		}
 
-		public static void Write(Package package)		{
-			var serializer = new JsonSerializer() {
+		public static void Write(Package package)
+		{
+			var serializer = new JsonSerializer()
+			{
 				Formatting = Formatting.Indented
 			};
 

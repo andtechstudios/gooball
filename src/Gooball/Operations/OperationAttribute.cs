@@ -1,12 +1,15 @@
 ﻿using System;
 
-namespace Gooball {
+namespace Gooball
+{
 
 	[AttributeUsage(AttributeTargets.Method)]
-	internal class OperationAttribute : Attribute {
+	internal class OperationAttribute : Attribute
+	{
 		public readonly Type OptionType;
 
-		public OperationAttribute(Type optionType) {
+		public OperationAttribute(Type optionType)
+		{
 			OptionType = optionType;
 		}
 	}

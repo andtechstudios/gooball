@@ -1,25 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Gooball {
+namespace Gooball
+{
 
-	internal interface ITextCommenter {
+	internal interface ITextCommenter
+	{
 
 		string Process(IEnumerable<string> lines);
 	}
 
-	internal abstract class BaseTextCommenter : ITextCommenter {
+	internal abstract class BaseTextCommenter : ITextCommenter
+	{
 		protected string BeginLine;
 		protected string MidPrefix;
 		protected string EndLine;
 
 		protected readonly string NewLine;
 
-		public BaseTextCommenter(string newLine) {
+		public BaseTextCommenter(string newLine)
+		{
 			NewLine = newLine;
 		}
 
-		public virtual string Process(IEnumerable<string> lines) {
+		public virtual string Process(IEnumerable<string> lines)
+		{
 			var commentedLines =
 				from line in lines
 				select $"{MidPrefix}{line}";
@@ -30,18 +35,22 @@ namespace Gooball {
 		}
 	}
 
-	internal class SinglelineTextCommenter : BaseTextCommenter {
+	internal class SinglelineTextCommenter : BaseTextCommenter
+	{
 
-		public SinglelineTextCommenter(string newLine) : base(newLine) {
+		public SinglelineTextCommenter(string newLine) : base(newLine)
+		{
 			BeginLine = string.Empty;
 			MidPrefix = "// ";
 			EndLine = string.Empty;
 		}
 	}
 
-	internal class MultilineTextCommenter : BaseTextCommenter {
+	internal class MultilineTextCommenter : BaseTextCommenter
+	{
 
-		public MultilineTextCommenter(string newLine) : base(newLine) {
+		public MultilineTextCommenter(string newLine) : base(newLine)
+		{
 			BeginLine = "/*" + NewLine;
 			MidPrefix = " *	";
 			EndLine = " */" + NewLine;

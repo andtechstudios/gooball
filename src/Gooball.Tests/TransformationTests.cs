@@ -3,12 +3,15 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace Gooball.Tests {
+namespace Gooball.Tests
+{
 
-	public class TransformationTests : GooballTests {
+	public class TransformationTests : GooballTests
+	{
 
 		[Test]
-		public void HideFolder() {
+		public void HideFolder()
+		{
 			var folderPath = Path.Combine(ExamplePackageRoot, "Samples");
 			var metafilePath = Path.ChangeExtension(folderPath, ".meta");
 
@@ -20,7 +23,8 @@ namespace Gooball.Tests {
 		}
 
 		[Test]
-		public void InjectOperations() {
+		public void InjectOperations()
+		{
 			var filePath = Path.Combine(ExampleProjectRoot, "Assets/Scripts/Script.cs");
 			var headerPath = "preamble.txt";
 
@@ -32,7 +36,8 @@ namespace Gooball.Tests {
 			var headerLines = header.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 			var fileLines = contents.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
-			foreach (var line in headerLines) {
+			foreach (var line in headerLines)
+			{
 				Assert.IsTrue(fileLines.Any(x => x.Contains(line)));
 			}
 		}
