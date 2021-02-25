@@ -5,75 +5,75 @@ namespace Gooball
     /// <summary>
     /// A manifest file of a Unity package.
     /// </summary>  
-    public class PackageManifest
+    public partial class PackageManifest
     {
-        [JsonProperty("name")]
-        public string Name { get; set; } = string.Empty;
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        public string Name { get; set; }
 
-        [JsonProperty("version")]
-        public string Version { get; set; } = string.Empty;
+        [JsonProperty("version", NullValueHandling = NullValueHandling.Ignore)]
+        public string Version { get; set; }
 
-        [JsonProperty("displayName")]
-        public string DisplayName { get; set; } = string.Empty;
+        [JsonProperty("displayName", NullValueHandling = NullValueHandling.Ignore)]
+        public string DisplayName { get; set; }
 
-        [JsonProperty("description")]
-        public string Description { get; set; } = string.Empty;
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
+        public string Description { get; set; }
 
-        [JsonProperty("unity")]
-        public string Unity { get; set; } = string.Empty;
+        [JsonProperty("unity", NullValueHandling = NullValueHandling.Ignore)]
+        public string Unity { get; set; }
 
-        [JsonProperty("unityRelease")]
-        public string UnityRelease { get; set; } = string.Empty;
+        [JsonProperty("unityRelease", NullValueHandling = NullValueHandling.Ignore)]
+        public string UnityRelease { get; set; }
 
-        [JsonProperty("repository")]
-        public string Repository { get; set; } = string.Empty;
+        [JsonProperty("repository", NullValueHandling = NullValueHandling.Ignore)]
+        public string Repository { get; set; }
 
-        [JsonProperty("license")]
-        public string License { get; set; } = string.Empty;
+        [JsonProperty("license", NullValueHandling = NullValueHandling.Ignore)]
+        public string License { get; set; }
 
-        [JsonProperty("dependencies")]
+        [JsonProperty("dependencies", NullValueHandling = NullValueHandling.Ignore)]
         public Dependencies Dependencies { get; set; }
 
-        [JsonProperty("keywords")]
+        [JsonProperty("keywords", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Keywords { get; set; }
 
-        [JsonProperty("author")]
+        [JsonProperty("author", NullValueHandling = NullValueHandling.Ignore)]
         public Author Author { get; set; }
 
-        [JsonProperty("samples")]
+        [JsonProperty("samples", NullValueHandling = NullValueHandling.Ignore)]
         public Sample[] Samples { get; set; }
 
-        [JsonProperty("type")]
-        public string Type { get; set; } = string.Empty;
+        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+        public string Type { get; set; }
     }
 
     public partial class Author
     {
-        [JsonProperty("name")]
-        public string Name { get; set; } = string.Empty;
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        public string Name { get; set; }
 
-        [JsonProperty("email")]
-        public string Email { get; set; } = string.Empty;
+        [JsonProperty("email", NullValueHandling = NullValueHandling.Ignore)]
+        public string Email { get; set; }
 
-        [JsonProperty("url")]
-        public string Url { get; set; } = string.Empty;
+        [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
+        public string Url { get; set; }
     }
 
     public partial class Dependencies
     {
-        [JsonProperty("com.andtech.core")]
-        public string ComAndtechCore { get; set; } = string.Empty;
+        [JsonProperty("com.andtech.core", NullValueHandling = NullValueHandling.Ignore)]
+        public string ComAndtechCore { get; set; }
     }
 
     public partial class Sample
     {
-        [JsonProperty("displayName")]
-        public string DisplayName { get; set; } = string.Empty;
+        [JsonProperty("displayName", NullValueHandling = NullValueHandling.Ignore)]
+        public string DisplayName { get; set; }
 
-        [JsonProperty("Description")]
-        public string Description { get; set; } = string.Empty;
+        [JsonProperty("Description", NullValueHandling = NullValueHandling.Ignore)]
+        public string Description { get; set; }
 
-        [JsonProperty("path")]
-        public string Path { get; set; } = string.Empty;
+        [JsonProperty("path", NullValueHandling = NullValueHandling.Ignore)]
+        public string Path { get; set; }
     }
 }
