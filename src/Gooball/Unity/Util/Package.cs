@@ -33,9 +33,19 @@ namespace Gooball {
 			return package;
 		}
 
-		public static void Write(Package package) {
-			var json = JsonConvert.SerializeObject(package.Manifest, Formatting.Indented);
-			File.WriteAllText(package.ManifestPath, json);
+		public static void Write(Package package)		{
+			var serializer = new JsonSerializer() {
+				Formatting = Formatting.Indented
+			};
+
+			using var sw = File.CreateText(package.ManifestPath);
+			using var tw = new JsonTextWriter(sw)
+			{
+				Indentation = 1,
+				IndentChar = '\t'
+			};
+
+			serializer.Serialize(tw, package.Manifest);
 		}
 	}
 }
