@@ -56,7 +56,4 @@
       </PackagePath>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="nupkg\" />
-  </ItemGroup>
 </Project>
