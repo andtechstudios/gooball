@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Gooball.Tests {
 
@@ -61,6 +62,19 @@ namespace Gooball.Tests {
 			var package = Package.Read(ExamplePackageRoot);
 
 			Assert.IsFalse(package.Samples.Any(x => regex.IsMatch(x.Path)));
+		}
+
+		[Test]
+		public void SerializeNullValue() {
+			Interpreter.Instance.Run(new string[] { "package", "bump", "--major", ExamplePackageRoot });
+
+			var manifestPath = Path.Combine(ExamplePackageRoot, "package.json");
+			var text = File.ReadAllText(manifestPath);
+			var regex = new Regex("\"type\"/s*:");
+
+			Console.WriteLine(text);
+
+			Assert.IsFalse(regex.IsMatch(text));
 		}
 
 		private void IsVersion(string expected) {
