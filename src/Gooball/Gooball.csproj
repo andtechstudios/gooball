@@ -6,12 +6,12 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <PackageIcon>icon.png</PackageIcon>
     <Authors>ajordan</Authors>
-    <Version>0.5.0</Version>
+    <Version>0.5.1</Version>
     <Description>Build, test, and manage Unity projects from the command line</Description>
     <PackageProjectUrl>https://github.com/AndrewMJordan/gooball</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AndrewMJordan/gooball</RepositoryUrl>
-    <AssemblyVersion>0.0.5.0</AssemblyVersion>
-    <FileVersion>0.0.5.0</FileVersion>
+    <AssemblyVersion>0.0.5.1</AssemblyVersion>
+    <FileVersion>0.0.5.1</FileVersion>
     <PackageTags>gooball;goo;unity;tool;cli</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -43,12 +43,12 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression></PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
-      <PackagePath>
-      </PackagePath>
+      <PackagePath></PackagePath>
     </None>
     <None Include="icon.png">
       <Pack>True</Pack>
