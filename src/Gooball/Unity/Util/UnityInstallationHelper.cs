@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace Gooball
@@ -79,6 +80,15 @@ namespace Gooball
 
 		public static string GetExecutablePath(string directory)
 		{
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+			{
+				return Path.Join(directory, "Unity.app/Contents/MacOS/Unity");
+			}
+			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				return Path.Join(directory, "Editor/Unity.exe");
+			}
+
 			return Path.Join(directory, "Editor/Unity.exe");
 		}
 
