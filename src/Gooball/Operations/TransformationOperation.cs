@@ -1,10 +1,12 @@
 ﻿using CommandLine;
 using System.IO;
 
-namespace Gooball {
+namespace Gooball
+{
 
 	[Verb("transform", HelpText = "Hide a folder from Unity.")]
-	internal class TransformationOptions {
+	internal class TransformationOptions
+	{
 		[Value(0, Required = true, MetaName = "command", HelpText = "The transformation action to perform.")]
 		public string Command { get; set; }
 
@@ -17,11 +19,14 @@ namespace Gooball {
 		public string HeaderFilePath { get; set; }
 	}
 
-	internal static class TransformationOperation {
+	internal static class TransformationOperation
+	{
 
 		[Operation(typeof(TransformationOptions))]
-		public static void OnParse(TransformationOptions options) {
-			switch (options.Command) {
+		public static void OnParse(TransformationOptions options)
+		{
+			switch (options.Command)
+			{
 				case "inject":
 					Inject();
 					break;
@@ -30,16 +35,19 @@ namespace Gooball {
 					break;
 			}
 
-			void Inject() {
+			void Inject()
+			{
 				new Injector() { HeaderFilePath = options.HeaderFilePath }.Prepend(options.Target);
 			}
 
-			void HideUnityFolder() {
+			void HideUnityFolder()
+			{
 				var folderPath = options.Target;
 				HideFolder();
 				HideMetaFile();
 
-				void HideFolder() {
+				void HideFolder()
+				{
 					if (!Directory.Exists(folderPath))
 						throw new DirectoryNotFoundException(folderPath);
 
@@ -51,12 +59,11 @@ namespace Gooball {
 					Directory.Move(folderPath, destination);
 				}
 
-				void HideMetaFile() {
+				void HideMetaFile()
+				{
 					var source = Path.ChangeExtension(folderPath, ".meta");
-					if (!File.Exists(source))
-						throw new DirectoryNotFoundException(source);
-
-					File.Delete(source);
+					if (File.Exists(source))
+						File.Delete(source);
 				}
 			}
 		}

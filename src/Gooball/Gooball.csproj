@@ -1,66 +1,59 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<OutputType>Exe</OutputType>
-		<TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-		<StartupObject>Gooball.Program</StartupObject>
-		<ApplicationIcon>icon.ico</ApplicationIcon>
-		<PackageIcon>icon.png</PackageIcon>
-		<Authors>ajordan</Authors>
-		<Version>0.4.0</Version>
-		<Description>Build, test, and manage Unity projects from the command line</Description>
-		<PackageProjectUrl>https://github.com/AndrewMJordan/gooball</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/AndrewMJordan/gooball</RepositoryUrl>
-		<AssemblyVersion>0.0.4.0</AssemblyVersion>
-		<FileVersion>0.0.4.0</FileVersion>
-		<PackageTags>gooball;goo;unity;tool;cli</PackageTags>
-		<NeutralLanguage>en</NeutralLanguage>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Copyright>© ajordan 2020</Copyright>
-	</PropertyGroup>
-
-	<!-- Dependencies -->
-	<ItemGroup>
-		<PackageReference Include="CommandLineParser" Version="2.8.0" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-	</ItemGroup>
-
-	<!-- Dotnet Tool Specific settings -->
-	<PropertyGroup>
-		<PackAsTool>true</PackAsTool>
-		<PackageId>Gooball</PackageId>
-		<ToolCommandName>goo</ToolCommandName>
-		
-		<PackageOutputPath>./nupkg</PackageOutputPath>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	</PropertyGroup>
-
-	<!-- NuGet settings -->
-	<PropertyGroup>
-		<Deterministic>true</Deterministic>
-		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<RepositoryType>git</RepositoryType>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<None Include="..\..\LICENSE">
-		<Pack>True</Pack>
-		<PackagePath></PackagePath>
-		</None>
-		<None Include="icon.png">
-		<Pack>True</Pack>
-		<PackagePath></PackagePath>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="nupkg\" />
-	</ItemGroup>
-
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    <StartupObject>Gooball.Program</StartupObject>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <PackageIcon>icon.png</PackageIcon>
+    <Authors>ajordan</Authors>
+    <Version>0.5.1</Version>
+    <Description>Build, test, and manage Unity projects from the command line</Description>
+    <PackageProjectUrl>https://github.com/AndrewMJordan/gooball</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AndrewMJordan/gooball</RepositoryUrl>
+    <AssemblyVersion>0.0.5.1</AssemblyVersion>
+    <FileVersion>0.0.5.1</FileVersion>
+    <PackageTags>gooball;goo;unity;tool;cli</PackageTags>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Copyright>© ajordan 2020</Copyright>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>C:\Users\andrew\Desktop\gooball-work\gooball\Backup\src\Gooball\</UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <!-- Dependencies -->
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+  <!-- Dotnet Tool Specific settings -->
+  <PropertyGroup>
+    <PackAsTool>true</PackAsTool>
+    <PackageId>Gooball</PackageId>
+    <ToolCommandName>goo</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <!-- NuGet settings -->
+  <PropertyGroup>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression></PackageLicenseExpression>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="icon.png">
+      <Pack>True</Pack>
+      <PackagePath>
+      </PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

@@ -1,18 +1,22 @@
 ﻿using NUnit.Framework;
 
-namespace Gooball.Tests {
+namespace Gooball.Tests
+{
 
-	public class PathTests {
+	public class PathTests
+	{
 
 		[Test]
-		public static void FindRootedFolder() {
+		public static void FindRootedFolder()
+		{
 			var regex = PathUtility.FolderRegex("Samples");
 
 			Assert.IsTrue(regex.IsMatch(@"Samples"));
 		}
 
 		[Test]
-		public static void RejectDeepFolder() {
+		public static void RejectDeepFolder()
+		{
 			var regex = PathUtility.FolderRegex("Samples");
 
 			Assert.IsFalse(regex.IsMatch(@"Costco/Samples"));

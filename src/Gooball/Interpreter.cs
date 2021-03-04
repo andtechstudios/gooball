@@ -3,24 +3,28 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Gooball {
+namespace Gooball
+{
 
 	/// <summary>
 	/// Gooball command line interpreter.
 	/// </summary>
-	public class Interpreter {
+	public class Interpreter
+	{
 		public string[] Args { get; private set; }
 		public string[] PassthroughArgs { get; private set; }
 
 		public static Interpreter Instance { get; private set; }
 
-		static Interpreter() {
+		static Interpreter()
+		{
 			Instance = new Interpreter();
 		}
 
 		private Interpreter() { }
 
-		public void Run(string[] args) {
+		public void Run(string[] args)
+		{
 			ArgsHelper.SplitArgs(args, out var gooArgs, out var passthroughArgs);
 			Args = gooArgs;
 			PassthroughArgs = passthroughArgs;
@@ -31,7 +35,8 @@ namespace Gooball {
 			Parser.Default.ParseArguments(gooArgs, types)
 				.WithParsed(OnParse);
 
-			void OnParse(object options) {
+			void OnParse(object options)
+			{
 				var type = options.GetType();
 
 				var operation = operations.First(x => x.GetCustomAttribute<OperationAttribute>().OptionType == type);
@@ -39,7 +44,8 @@ namespace Gooball {
 			}
 		}
 
-		private static Type[] LoadVerbs() {
+		private static Type[] LoadVerbs()
+		{
 			return Assembly
 				.GetExecutingAssembly()
 				.GetTypes()
@@ -47,7 +53,8 @@ namespace Gooball {
 				.ToArray();
 		}
 
-		private static MethodInfo[] LoadOperations() {
+		private static MethodInfo[] LoadOperations()
+		{
 			return Assembly
 				.GetExecutingAssembly()
 				.GetTypes()

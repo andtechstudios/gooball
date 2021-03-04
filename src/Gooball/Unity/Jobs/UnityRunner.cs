@@ -2,81 +2,105 @@
 using System.Diagnostics;
 using System.Linq;
 
-namespace Gooball {
+namespace Gooball
+{
 
-	internal class UnityRunner {
+	internal class UnityRunner
+	{
 		public readonly UnityArgs Args;
 
-		public UnityRunner(UnityArgs args) {
+		public UnityRunner(UnityArgs args)
+		{
 			Args = args;
 		}
 
-		public void Open(Project project) {
+		public void Open(Project project)
+		{
 			var helper = new UnityInstallationHelper();
 			var args = new Queue<string>(Args);
-			if (Args.ProjectPath is null) {
-				args.Enqueue($"-projectPath \"{project.Path}\"");
+			if (Args.ProjectPath is null)
+			{
+				args.Enqueue($"-projectPath");
+				args.Enqueue($"{project.Path}");
 			}
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, string.Join(' ', args), false);
+			Run(editorPath, args);
 		}
 
-		public void Build(Project project) {
+		public void Build(Project project)
+		{
 			var helper = new UnityInstallationHelper();
 			var args = GetDefaultArgsBatch(project);
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, string.Join(' ', args));
+			Run(editorPath, args);
 		}
 
-		public void Test(Project project) {
+		public void Test(Project project)
+		{
 			var helper = new UnityInstallationHelper();
 			var args = GetDefaultArgsBatch(project);
-			if (!Args.RunTests) {
+			if (!Args.RunTests)
+			{
 				args.Enqueue($"-runTests");
 			}
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, string.Join(' ', args));
+			Run(editorPath, args);
 		}
 
-		private Queue<string> GetDefaultArgsBatch(Project project) {
+		public void Execute()
+		{
+			var helper = new UnityInstallationHelper();
+			var args = Args;
+
+			var editorPath = UnityInstallationHelper.GetExecutablePath(helper.GetInstalledEditors().First());
+			Run(editorPath, args);
+		}
+
+		private Queue<string> GetDefaultArgsBatch(Project project)
+		{
 			var args = new Queue<string>();
-			if (!Args.BatchMode) {
+			if (!Args.BatchMode)
+			{
 				args.Enqueue($"-batchMode");
 			}
-			if (!Args.Quit) {
+			if (!Args.Quit)
+			{
 				args.Enqueue($"-quit");
 			}
-			if (Args.ProjectPath is null) {
-				args.Enqueue($"-projectPath \"{project.Path}\"");
+			if (Args.ProjectPath is null)
+			{
+				args.Enqueue($"-projectPath");
+				args.Enqueue($"{project.Path}");
 			}
-			foreach (var argument in Args) {
+			foreach (var argument in Args)
+			{
 				args.Enqueue(argument);
 			}
 
 			return args;
 		}
 
-		public void Execute() {
-			var helper = new UnityInstallationHelper();
-			var args = Args;
+		private void Run(string editorPath, IEnumerable<string> args)
+		{
+			var argsString = string.Join(" ", args.Select(WrapArgument));
 
-			var editorPath = UnityInstallationHelper.GetExecutablePath(helper.GetInstalledEditors().First());
-			Run(editorPath, string.Join(' ', args));
-		}
-
-		private void Run(string editorPath, string args, bool waitForExit = true) {
-			using (var process = new Process()) {
+			using (var process = new Process())
+			{
 				process.StartInfo.FileName = editorPath;
 				process.StartInfo.UseShellExecute = false;
 				process.StartInfo.RedirectStandardOutput = true;
-				process.StartInfo.Arguments = args;
+				process.StartInfo.Arguments = argsString;
 				process.Start();
 
-				if (waitForExit)
-					process.WaitForExit();
+				process.WaitForExit();
+			}
+
+			string WrapArgument(string arg)
+			{
+				return $"\"{arg}\"";
 			}
 		}
 	}

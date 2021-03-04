@@ -1,8 +1,10 @@
 ﻿using System;
 
-namespace Gooball {
+namespace Gooball
+{
 
-	public enum VersionFlag {
+	public enum VersionFlag
+	{
 		None,
 		Major,
 		Minor,
@@ -10,10 +12,13 @@ namespace Gooball {
 		Revision
 	}
 
-	internal static class VersionExtensions {
+	internal static class VersionExtensions
+	{
 
-		public static Version Increment(this Version version, VersionFlag mask) {
-			switch (mask) {
+		public static Version Increment(this Version version, VersionFlag mask)
+		{
+			switch (mask)
+			{
 				case VersionFlag.Major:
 					return new Version(version.Major + 1, 0, 0);
 				case VersionFlag.Minor:

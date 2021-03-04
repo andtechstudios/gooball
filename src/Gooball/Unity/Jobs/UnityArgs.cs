@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Gooball {
+namespace Gooball
+{
 
-	internal class UnityArgs : IEnumerable<string> {
-		public string ProjectPath {
-			get {
+	internal class UnityArgs : IEnumerable<string>
+	{
+		public string ProjectPath
+		{
+			get
+			{
 				var index = FindArg("projectPath");
 				if (index < 0)
 					return null;
@@ -14,8 +18,10 @@ namespace Gooball {
 				return Args[index + 1];
 			}
 		}
-		public string ExecuteMethod {
-			get {
+		public string ExecuteMethod
+		{
+			get
+			{
 				var index = FindArg("executeMethod");
 				if (index < 0)
 					return null;
@@ -23,8 +29,10 @@ namespace Gooball {
 				return Args[index + 1];
 			}
 		}
-		public string TestResults {
-			get {
+		public string TestResults
+		{
+			get
+			{
 				var index = FindArg("testResults");
 				if (index < 0)
 					return null;
@@ -38,13 +46,16 @@ namespace Gooball {
 
 		private readonly IList<string> Args;
 
-		public UnityArgs(IEnumerable<string> collection) {
+		public UnityArgs(IEnumerable<string> collection)
+		{
 			Args = new List<string>(collection);
 		}
 
-		int FindArg(string switchText) {
+		int FindArg(string switchText)
+		{
 			var regex = new Regex($"(-|--)?{switchText}", RegexOptions.IgnoreCase);
-			for (int i = 0; i < Args.Count; i++) {
+			for (int i = 0; i < Args.Count; i++)
+			{
 				if (regex.IsMatch(Args[i]))
 					return i;
 			}

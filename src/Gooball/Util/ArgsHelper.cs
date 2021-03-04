@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Gooball {
+namespace Gooball
+{
 
-	internal class ArgsHelper {
+	internal class ArgsHelper
+	{
 
-		internal static void SplitArgs(IList<string> args, out string[] leftArgs, out string[] rightArgs) {
+		internal static void SplitArgs(IList<string> args, out string[] leftArgs, out string[] rightArgs)
+		{
 			int index = args.IndexOf("--");
 			int count = index == -1 ? args.Count : index;
 
@@ -14,7 +17,8 @@ namespace Gooball {
 			rightArgs = args.Skip(count + 1).ToArray();
 		}
 
-		internal static void SplitArgs(string[] args, out string[] leftArgs, out string[] rightArgs) {
+		internal static void SplitArgs(string[] args, out string[] leftArgs, out string[] rightArgs)
+		{
 			int index = Array.IndexOf(args, "--");
 			int count = index == -1 ? args.Length : index;
 

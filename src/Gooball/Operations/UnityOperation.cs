@@ -1,10 +1,12 @@
 ﻿using CommandLine;
 using System;
 
-namespace Gooball {
+namespace Gooball
+{
 
 	[Verb("unity", HelpText = "Project-independent Unity commands.")]
-	internal class UnityOptions {
+	internal class UnityOptions
+	{
 		[Value(0, Required = true, MetaName = "command", HelpText = "The editor action to perform.")]
 		public string Command { get; set; }
 
@@ -13,11 +15,14 @@ namespace Gooball {
 		public string Path { get; set; }
 	}
 
-	internal static class UnityOperation {
+	internal static class UnityOperation
+	{
 
 		[Operation(typeof(UnityOptions))]
-		public static void OnParse(UnityOptions options) {
-			switch (options.Command) {
+		public static void OnParse(UnityOptions options)
+		{
+			switch (options.Command)
+			{
 				case "run":
 					Run();
 					break;
@@ -26,17 +31,21 @@ namespace Gooball {
 					break;
 			}
 
-			void Run() {
+			void Run()
+			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
 				new UnityRunner(unityArgs).Execute();
 			}
 
-			void ListEditorInstalls() {
+			void ListEditorInstalls()
+			{
 				UnityInstallationHelper helper;
-				if (options.Path is null) {
+				if (options.Path is null)
+				{
 					helper = new UnityInstallationHelper();
 				}
-				else {
+				else
+				{
 					helper = new UnityInstallationHelper(options.Path);
 				}
 				var editors = helper.GetInstalledEditors();
