@@ -20,11 +20,12 @@ namespace Gooball
 			var args = new Queue<string>(Args);
 			if (Args.ProjectPath is null)
 			{
-				args.Enqueue($"-projectPath \"{project.Path}\"");
+				args.Enqueue($"-projectPath");
+				args.Enqueue($"{project.Path}");
 			}
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, string.Join(' ', args));
+			Run(editorPath, args);
 		}
 
 		public void Build(Project project)
@@ -33,7 +34,7 @@ namespace Gooball
 			var args = GetDefaultArgsBatch(project);
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, string.Join(' ', args));
+			Run(editorPath, args);
 		}
 
 		public void Test(Project project)
@@ -46,7 +47,16 @@ namespace Gooball
 			}
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, string.Join(' ', args));
+			Run(editorPath, args);
+		}
+
+		public void Execute()
+		{
+			var helper = new UnityInstallationHelper();
+			var args = Args;
+
+			var editorPath = UnityInstallationHelper.GetExecutablePath(helper.GetInstalledEditors().First());
+			Run(editorPath, args);
 		}
 
 		private Queue<string> GetDefaultArgsBatch(Project project)
@@ -62,7 +72,8 @@ namespace Gooball
 			}
 			if (Args.ProjectPath is null)
 			{
-				args.Enqueue($"-projectPath \"{project.Path}\"");
+				args.Enqueue($"-projectPath");
+				args.Enqueue($"{project.Path}");
 			}
 			foreach (var argument in Args)
 			{
@@ -72,26 +83,24 @@ namespace Gooball
 			return args;
 		}
 
-		public void Execute()
+		private void Run(string editorPath, IEnumerable<string> args)
 		{
-			var helper = new UnityInstallationHelper();
-			var args = Args;
+			var argsString = string.Join(" ", args.Select(WrapArgument));
 
-			var editorPath = UnityInstallationHelper.GetExecutablePath(helper.GetInstalledEditors().First());
-			Run(editorPath, string.Join(' ', args));
-		}
-
-		private void Run(string editorPath, string args)
-		{
 			using (var process = new Process())
 			{
 				process.StartInfo.FileName = editorPath;
 				process.StartInfo.UseShellExecute = false;
 				process.StartInfo.RedirectStandardOutput = true;
-				process.StartInfo.Arguments = args;
+				process.StartInfo.Arguments = argsString;
 				process.Start();
 
 				process.WaitForExit();
+			}
+
+			string WrapArgument(string arg)
+			{
+				return $"\"{arg}\"";
 			}
 		}
 	}
