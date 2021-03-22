@@ -14,7 +14,7 @@ namespace Gooball
 			Args = args;
 		}
 
-		public void Open(Project project)
+		public int Open(Project project)
 		{
 			var helper = new UnityInstallationHelper();
 			var args = new Queue<string>(Args);
@@ -25,19 +25,21 @@ namespace Gooball
 			}
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, args);
+
+			return Execute(editorPath, args);
 		}
 
-		public void Build(Project project)
+		public int Build(Project project)
 		{
 			var helper = new UnityInstallationHelper();
 			var args = GetDefaultArgsBatch(project);
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, args);
+
+			return Execute(editorPath, args);
 		}
 
-		public void Test(Project project)
+		public int Test(Project project)
 		{
 			var helper = new UnityInstallationHelper();
 			var args = GetDefaultArgsBatch(project);
@@ -47,16 +49,18 @@ namespace Gooball
 			}
 
 			var editorPath = helper.GetBestEditor(project.EditorVersion);
-			Run(editorPath, args);
+
+			return Execute(editorPath, args);
 		}
 
-		public void Execute()
+		public int Run()
 		{
 			var helper = new UnityInstallationHelper();
 			var args = Args;
 
 			var editorPath = UnityInstallationHelper.GetExecutablePath(helper.GetInstalledEditors().First());
-			Run(editorPath, args);
+
+			return Execute(editorPath, args);
 		}
 
 		private Queue<string> GetDefaultArgsBatch(Project project)
@@ -83,7 +87,7 @@ namespace Gooball
 			return args;
 		}
 
-		private void Run(string editorPath, IEnumerable<string> args)
+		private int Execute(string editorPath, IEnumerable<string> args)
 		{
 			var argsString = string.Join(" ", args.Select(WrapArgument));
 
@@ -96,6 +100,8 @@ namespace Gooball
 				process.Start();
 
 				process.WaitForExit();
+
+				return process.ExitCode;
 			}
 
 			string WrapArgument(string arg)

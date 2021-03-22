@@ -48,19 +48,25 @@ namespace Gooball
 			void Open()
 			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-				new UnityRunner(unityArgs).Open(project);
+				var exitCode = new UnityRunner(unityArgs).Open(project);
+
+				Environment.Exit(exitCode);
 			}
 
 			void Build()
 			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-				new UnityRunner(unityArgs).Build(project);
+				var exitCode = new UnityRunner(unityArgs).Build(project);
+
+				Environment.Exit(exitCode);
 			}
 
 			void Test()
 			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-				new UnityRunner(unityArgs).Test(project);
+				var exitCode = new UnityRunner(unityArgs).Test(project);
+
+				Environment.Exit(exitCode);
 			}
 
 			void GetProjectVersion()

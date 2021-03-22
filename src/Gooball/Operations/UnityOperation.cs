@@ -34,7 +34,9 @@ namespace Gooball
 			void Run()
 			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-				new UnityRunner(unityArgs).Execute();
+				var exitCode = new UnityRunner(unityArgs).Run();
+
+				Environment.Exit(exitCode);
 			}
 
 			void ListEditorInstalls()
