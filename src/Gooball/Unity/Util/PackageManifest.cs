@@ -10,44 +10,47 @@ namespace Gooball
 	[JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
 	public partial class PackageManifest
 	{
-		[JsonProperty("name", Order = -13, NullValueHandling = NullValueHandling.Include)]
+		[JsonProperty("name", Order = -14, NullValueHandling = NullValueHandling.Include)]
 		public string Name { get; set; }
 
-		[JsonProperty("version", Order = -12, NullValueHandling = NullValueHandling.Include)]
+		[JsonProperty("version", Order = -13, NullValueHandling = NullValueHandling.Include)]
 		public string Version { get; set; }
 
-		[JsonProperty("displayName", Order = -11, NullValueHandling = NullValueHandling.Include)]
+		[JsonProperty("displayName", Order = -12, NullValueHandling = NullValueHandling.Include)]
 		public string DisplayName { get; set; }
 
-		[JsonProperty("description", Order = -10, NullValueHandling = NullValueHandling.Include)]
+		[JsonProperty("description", Order = -11, NullValueHandling = NullValueHandling.Include)]
 		public string Description { get; set; }
 
-		[JsonProperty("unity", Order = -9, NullValueHandling = NullValueHandling.Include)]
+		[JsonProperty("unity", Order = -10, NullValueHandling = NullValueHandling.Include)]
 		public string Unity { get; set; }
 
-		[JsonProperty("unityRelease", Order = -8)]
+		[JsonProperty("unityRelease", Order = -9)]
 		public string UnityRelease { get; set; }
 
-		[JsonProperty("dependencies", Order = -7)]
+		[JsonProperty("dependencies", Order = -8)]
 		public Dictionary<string, JToken> Dependencies { get; set; }
 
-		[JsonProperty("keywords", Order = -6)]
+		[JsonProperty("keywords", Order = -7)]
 		public string[] Keywords { get; set; }
 
-		[JsonProperty("type", Order = -5)]
+		[JsonProperty("type", Order = -6)]
 		public string Type { get; set; }
 
-		[JsonProperty("author", Order = -4)]
+		[JsonProperty("author", Order = -5)]
 		public Author Author { get; set; }
 
-		[JsonProperty("repository", Order = -3)]
-		public string Repository { get; set; }
-
-		[JsonProperty("license", Order = -2)]
+		[JsonProperty("license", Order = -4)]
 		public string License { get; set; }
 
-		[JsonProperty("samples", Order = -1)]
+		[JsonProperty("samples", Order = -3)]
 		public Sample[] Samples { get; set; }
+
+		[JsonProperty("repository", Order = -2)]
+		public Repository Repository { get; set; }
+
+		[JsonProperty("publishConfig", Order = -1)]
+		public PublishConfig PublishConfig { get; set; }
 	}
 
 	public partial class Author
@@ -72,5 +75,23 @@ namespace Gooball
 
 		[JsonProperty("path", Order = -1)]
 		public string Path { get; set; }
+	}
+
+	public partial class PublishConfig
+	{
+		[JsonProperty("registry", Order = -1)]
+		public string Registry { get; set; }
+	}
+
+	public partial class Repository
+	{
+		[JsonProperty("type", Order = -3)]
+		public string Type { get; set; }
+
+		[JsonProperty("url", Order = -2)]
+		public string Url { get; set; }
+
+		[JsonProperty("directory", Order = -1)]
+		public string Directory { get; set; }
 	}
 }
