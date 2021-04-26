@@ -42,7 +42,7 @@ namespace Gooball
 		public int Test(Project project)
 		{
 			var helper = new UnityInstallationHelper();
-			var args = GetDefaultArgsBatch(project);
+			var args = GetDefaultArgsBatch(project, quit: false);
 			if (!Args.RunTests)
 			{
 				args.Enqueue($"-runTests");
@@ -63,14 +63,14 @@ namespace Gooball
 			return Execute(editorPath, args);
 		}
 
-		private Queue<string> GetDefaultArgsBatch(Project project)
+		private Queue<string> GetDefaultArgsBatch(Project project, bool batchMode = true, bool quit = true)
 		{
 			var args = new Queue<string>();
-			if (!Args.BatchMode)
+			if (!Args.BatchMode && batchMode)
 			{
 				args.Enqueue($"-batchMode");
 			}
-			if (!Args.Quit)
+			if (!Args.Quit && quit)
 			{
 				args.Enqueue($"-quit");
 			}
