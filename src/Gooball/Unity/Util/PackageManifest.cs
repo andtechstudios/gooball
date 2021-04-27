@@ -13,20 +13,20 @@ namespace Gooball
 		[JsonProperty("name", Order = -14, NullValueHandling = NullValueHandling.Include)]
 		public string Name { get; set; }
 
-		[JsonProperty("version", Order = -13, NullValueHandling = NullValueHandling.Include)]
-		public string Version { get; set; }
-
-		[JsonProperty("displayName", Order = -12, NullValueHandling = NullValueHandling.Include)]
+		[JsonProperty("displayName", Order = -13, NullValueHandling = NullValueHandling.Include)]
 		public string DisplayName { get; set; }
 
-		[JsonProperty("description", Order = -11, NullValueHandling = NullValueHandling.Include)]
-		public string Description { get; set; }
+		[JsonProperty("version", Order = -12, NullValueHandling = NullValueHandling.Include)]
+		public string Version { get; set; }
 
-		[JsonProperty("unity", Order = -10, NullValueHandling = NullValueHandling.Include)]
+		[JsonProperty("unity", Order = -11, NullValueHandling = NullValueHandling.Include)]
 		public string Unity { get; set; }
 
-		[JsonProperty("unityRelease", Order = -9)]
+		[JsonProperty("unityRelease", Order = -10)]
 		public string UnityRelease { get; set; }
+
+		[JsonProperty("description", Order = -9, NullValueHandling = NullValueHandling.Include)]
+		public string Description { get; set; }
 
 		[JsonProperty("dependencies", Order = -8)]
 		public Dictionary<string, JToken> Dependencies { get; set; }
