@@ -4,10 +4,10 @@ using System;
 namespace Gooball
 {
 
-	[Verb("project", HelpText = "Commands for working with Unity projects.")]
+	[Verb("project", isDefault: true, HelpText = "Commands for working with Unity projects.")]
 	internal class ProjectOptions
 	{
-		[Value(0, Required = true, MetaName = "command", HelpText = "The project action to perform.")]
+		[Value(0, Required = true, Default = "open", MetaName = "command", HelpText = "The project action to perform.")]
 		public string Command { get; set; }
 		[Value(1, Required = false, Default = "./", HelpText = "The path to the Unity project.")]
 		public string ProjectPath { get; set; }

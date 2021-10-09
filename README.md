@@ -1,4 +1,6 @@
 # Gooball (Preview)
+[![GitHub tag](https://img.shields.io/nuget/v/Gooball)](https://www.nuget.org/packages/Gooball/)
+
 Build, test, and manage Unity projects from the command line. Develop custom Unity packages, manipulate Unity files/folders, and more.
 
 ## Setup
