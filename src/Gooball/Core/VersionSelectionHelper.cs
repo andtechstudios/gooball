@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Gooball
+namespace Andtech.Gooball
 {
 
 	public class VersionSelectionHelper

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace Gooball.Tests
+namespace Andtech.Gooball.Tests
 {
 
 	public class HideTests : BaseGooballTests

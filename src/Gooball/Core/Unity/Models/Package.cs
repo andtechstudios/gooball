@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 
-namespace Gooball
+namespace Andtech.Gooball
 {
 
 	/// <summary>

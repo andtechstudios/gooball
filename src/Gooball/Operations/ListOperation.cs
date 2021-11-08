@@ -1,7 +1,7 @@
 ﻿using CommandLine;
 using System;
 
-namespace Gooball
+namespace Andtech.Gooball
 {
 
 	internal class ListCommand

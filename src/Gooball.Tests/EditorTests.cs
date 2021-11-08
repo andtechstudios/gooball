@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Gooball.Tests
+namespace Andtech.Gooball.Tests
 {
 
 	public class EditorTests : BaseGooballTests

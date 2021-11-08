@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Gooball.Tests
+namespace Andtech.Gooball.Tests
 {
 
 	public class VersionTests

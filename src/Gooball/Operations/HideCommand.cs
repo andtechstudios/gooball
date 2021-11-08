@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Gooball
+namespace Andtech.Gooball
 {
 
 	internal class HideCommand

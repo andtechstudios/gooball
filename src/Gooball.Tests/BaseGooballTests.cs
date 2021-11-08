@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Gooball
+namespace Andtech.Gooball.Tests
 {
 
 	public class BaseGooballTests

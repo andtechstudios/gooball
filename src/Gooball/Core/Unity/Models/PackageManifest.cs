@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
-namespace Gooball
+namespace Andtech.Gooball
 {
 	/// <summary>
 	/// A manifest file of a Unity package.

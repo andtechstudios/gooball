@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Gooball
+namespace Andtech.Gooball
 {
 
 	class ArgumentUtility

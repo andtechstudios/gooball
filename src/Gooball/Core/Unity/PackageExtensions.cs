@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gooball
+namespace Andtech.Gooball
 {
 
 	public static class PackageExtensions

@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace Gooball
+namespace Andtech.Gooball
 {
 
 	internal class BaseUnityOptions
