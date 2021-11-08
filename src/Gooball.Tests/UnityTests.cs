@@ -16,7 +16,7 @@ namespace Gooball.Tests
 		[Test]
 		public void ListInstalls()
 		{
-			Action action = () => Interpreter.Instance.Run(new string[] { "unity", "list-installs", "--install-path", ExampleEditorInstallRoot });
+			Action action = () => Interpreter.Instance.Run(new string[] { "list", "--install-path", ExampleEditorInstallRoot });
 
 			AssertConsoleEquals(EDITORS, action);
 		}

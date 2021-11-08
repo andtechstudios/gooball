@@ -21,30 +21,6 @@ namespace Gooball
 		{
 			if (string.IsNullOrEmpty(options.PackagePath))
 			{
-				var packagePath = options.PackagePath;
-				var package = Package.Read(packagePath);
-				foreach (var sample in package.Samples)
-				{
-					var destination = HideFolderInPath(options.TargetPath, sample.Path);
-					sample.Path = destination;
-				}
-
-				string HideFolderInPath(string folderPath, string path)
-				{
-					var folderName = Path.GetFileName(folderPath);
-					MatchEvaluator evaluator = m =>
-					{
-						var chunk = m.Value;
-						var p = Regex.Replace(chunk, folderName, folderName + "~");
-
-						return p;
-					};
-
-					return PathUtility.FolderRegex(folderPath).Replace(path, evaluator);
-				}
-			}
-			else
-			{
 				var targetPath = options.TargetPath;
 				HideFolder();
 				HideMetaFile();
@@ -80,6 +56,31 @@ namespace Gooball
 					{
 						File.Delete(metaFilePath);
 					}
+				}
+			}
+			else
+			{
+				var packagePath = options.PackagePath;
+				var package = Package.Read(packagePath);
+				foreach (var sample in package.Samples)
+				{
+					var destination = HideFolderInPath(options.TargetPath, sample.Path);
+					sample.Path = destination;
+				}
+				Package.Write(package);
+
+				string HideFolderInPath(string folderPath, string path)
+				{
+					var folderName = Path.GetFileName(folderPath);
+					MatchEvaluator evaluator = m =>
+					{
+						var chunk = m.Value;
+						var p = Regex.Replace(chunk, folderName, folderName + "~");
+
+						return p;
+					};
+
+					return PathUtility.FolderRegex(folderPath).Replace(path, evaluator);
 				}
 			}
 		}

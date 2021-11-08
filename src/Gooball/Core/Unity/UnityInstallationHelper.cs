@@ -24,15 +24,17 @@ namespace Gooball
 
 		private readonly Queue<string> editorRoots;
 
-		public UnityInstallationHelper()
+		public UnityInstallationHelper(string editorInstallationRoot = null)
 		{
-			editorRoots = new Queue<string>(DEFAULT_PATHS);
-		}
-
-		public UnityInstallationHelper(string editorInstallationRoot)
-		{
-			editorRoots = new Queue<string>(1);
-			editorRoots.Enqueue(editorInstallationRoot);
+			if (string.IsNullOrEmpty(editorInstallationRoot))
+			{
+				editorRoots = new Queue<string>(DEFAULT_PATHS);
+			}
+			else
+			{
+				editorRoots = new Queue<string>(1);
+				editorRoots.Enqueue(editorInstallationRoot);
+			}
 		}
 
 		public IEnumerable<string> GetInstalledEditors()

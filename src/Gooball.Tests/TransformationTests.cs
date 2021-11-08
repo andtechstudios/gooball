@@ -15,7 +15,7 @@ namespace Gooball.Tests
 			var folderPath = Path.Combine(ExamplePackageRoot, "Samples");
 			var metafilePath = Path.ChangeExtension(folderPath, ".meta");
 
-			Interpreter.Instance.Run(new string[] { "transform", "hide-folder", folderPath });
+			Interpreter.Instance.Run(new string[] { "hide", folderPath });
 
 			Assert.IsFalse(Directory.Exists(folderPath));
 			Assert.IsTrue(Directory.Exists(folderPath + "~"));
