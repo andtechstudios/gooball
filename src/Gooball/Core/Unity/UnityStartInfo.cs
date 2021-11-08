@@ -40,12 +40,10 @@ namespace Andtech.Gooball
 			if (!ArgumentUtility.HasFlag(args, "batchMode"))
 			{
 				startInfo.Args.Add("-batchMode");
-				startInfo.Args.Add(options.ProjectPath);
 			}
 			if (!ArgumentUtility.HasFlag(args, "quit"))
 			{
 				startInfo.Args.Add("-quit");
-				startInfo.Args.Add(options.ProjectPath);
 			}
 			startInfo.DryRun = options.DryRun;
 
@@ -63,14 +61,12 @@ namespace Andtech.Gooball
 			if (!ArgumentUtility.HasFlag(args, "batchMode"))
 			{
 				startInfo.Args.Add("-batchMode");
-				startInfo.Args.Add(options.ProjectPath);
 			}
 			if (!ArgumentUtility.HasFlag(args, "quit"))
 			{
 				startInfo.Args.Add("-quit");
-				startInfo.Args.Add(options.ProjectPath);
 			}
-			if (ArgumentUtility.HasFlag(args, "runTests"))
+			if (!ArgumentUtility.HasFlag(args, "runTests"))
 			{
 				startInfo.args.Add($"-runTests");
 			}
