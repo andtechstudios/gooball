@@ -15,5 +15,7 @@ namespace Gooball
 		public bool ForgetProjectPath { get; set; }
 		[Option("no-graphics", HelpText = "When you run this in batch mode, it does not initialize the graphics device.")]
 		public bool NoGraphics { get; set; }
+		[Option("dry-run", HelpText = "Dry run this command", Hidden = false)]
+		public bool DryRun { get; set; }
 	}
 }

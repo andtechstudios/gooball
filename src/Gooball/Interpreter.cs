@@ -25,7 +25,7 @@ namespace Gooball
 
 		public void Run(string[] args)
 		{
-			SplitArgs(args, out var toolArgs, out var passthroughArgs);
+			ArgumentUtility.SplitArgs(args, out var toolArgs, out var passthroughArgs);
 			ToolArgs = toolArgs;
 			PassthroughArgs = passthroughArgs;
 
@@ -37,15 +37,6 @@ namespace Gooball
 				.WithParsed<ListCommand.Options>(ListCommand.OnParse)
 				.WithParsed<HideCommand.Options>(HideCommand.OnParse)
 			;
-		}
-
-		private static void SplitArgs(string[] args, out string[] leftArgs, out string[] rightArgs)
-		{
-			int index = Array.IndexOf(args, "--");
-			int count = index == -1 ? args.Length : index;
-
-			leftArgs = args.Take(count).ToArray();
-			rightArgs = args.Skip(count + 1).ToArray();
 		}
 	}
 }

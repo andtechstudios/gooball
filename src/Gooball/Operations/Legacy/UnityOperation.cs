@@ -22,20 +22,9 @@ namespace Gooball
 		{
 			switch (options.Command)
 			{
-				case "run":
-					Run();
-					break;
 				case "list-installs":
 					ListEditorInstalls();
 					break;
-			}
-
-			void Run()
-			{
-				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-				var exitCode = new UnityProcess(unityArgs).Run();
-
-				Environment.Exit(exitCode);
 			}
 
 			void ListEditorInstalls()

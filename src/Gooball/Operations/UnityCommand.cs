@@ -13,11 +13,13 @@ namespace Gooball
 
 		public static void OnParse(Options options)
 		{
+			var startInfo = UnityStartInfo.Open(options, Interpreter.Instance.PassthroughArgs);
+			var process = new UnityProcess(startInfo);
 			var project = Project.Read(options.ProjectPath);
-			var args = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-			var exitCode = UnityProcess.Start(args).Open(project);
+			startInfo.PreferredEditorVersion = project.EditorVersion;
+			process.Start();
 
-			Environment.Exit(exitCode);
+			Environment.Exit(process.ExitCode);
 		}
 	}
 
@@ -30,11 +32,13 @@ namespace Gooball
 
 		public static void OnParse(Options options)
 		{
+			var startInfo = UnityStartInfo.Build(options, Interpreter.Instance.PassthroughArgs);
+			var process = new UnityProcess(startInfo);
 			var project = Project.Read(options.ProjectPath);
-			var args = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-			var exitCode = UnityProcess.Start(args).Build(project);
+			startInfo.PreferredEditorVersion = project.EditorVersion;
+			process.Start();
 
-			Environment.Exit(exitCode);
+			Environment.Exit(process.ExitCode);
 		}
 	}
 
@@ -49,11 +53,13 @@ namespace Gooball
 
 		public static void OnParse(Options options)
 		{
+			var startInfo = UnityStartInfo.Test(options, Interpreter.Instance.PassthroughArgs);
+			var process = new UnityProcess(startInfo);
 			var project = Project.Read(options.ProjectPath);
-			var args = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-			var exitCode = UnityProcess.Start(args).Test(project);
+			startInfo.PreferredEditorVersion = project.EditorVersion;
+			process.Start();
 
-			Environment.Exit(exitCode);
+			Environment.Exit(process.ExitCode);
 		}
 	}
 }
