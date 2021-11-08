@@ -11,14 +11,14 @@ namespace Andtech.Gooball
 	public class UnityEditor
 	{
 		public string Path { get; set; }
-		public string Executable => GetExecutablePath(Path);
+		public string ExecutablePath => GetExecutablePath(Path);
 		public Version Version { get; set; }
 		public string VersionRaw { get; set; }
 
 		public static UnityEditor Read(string path)
 		{
 			var fileName = System.IO.Path.GetFileName(path);
-			var version = Version.Parse(fileName);
+			var version = VersionUtility.Parse(fileName);
 
 			return new UnityEditor()
 			{

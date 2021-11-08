@@ -66,12 +66,12 @@ namespace Andtech.Gooball
 
 		public UnityEditor GetBestEditor(Version version)
 		{
-			var installedEditors = GetInstalledEditors();
-			var versionHelper = new VersionSelectionHelper(installedEditors.Select(x => x.Version));
+			var editors = GetInstalledEditors();
+			var versionHelper = new VersionSelectionHelper(editors.Select(x => x.Version));
 
 			var bestVersion = versionHelper.GetBestVersion(version);
 
-			return installedEditors.First(x => x.Version == bestVersion);
+			return editors.First(x => x.Version == bestVersion);
 		}
 
 		private IEnumerable<UnityEditor> GetInstalledEditors(string root)
@@ -80,7 +80,11 @@ namespace Andtech.Gooball
 				from path in Directory.EnumerateDirectories(root, "*")
 				select UnityEditor.Read(path);
 
-			return editors.OrderByDescending(x => x.Version);
+			return editors
+				.OrderBy(x => x.Version.Major)
+				.ThenBy(x => x.Version.Minor)
+				.ThenBy(x => x.Version.Build)
+				.ThenBy(x => x.Version.Revision);
 		}
 	}
 }

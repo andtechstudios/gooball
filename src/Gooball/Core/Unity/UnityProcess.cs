@@ -17,20 +17,20 @@ namespace Andtech.Gooball
 			this.startInfo = startInfo;
 		}
 
-		private int Execute(string editorPath, IEnumerable<string> args)
+		private int Execute(UnityEditor editor, IEnumerable<string> args)
 		{
 			var argsString = string.Join(" ", args.Select(WrapArgument));
 
 			if (startInfo.DryRun)
 			{
-				Console.WriteLine($"[DRY RUN] {editorPath} {argsString}");
+				Console.WriteLine($"[DRY RUN] {editor.ExecutablePath} {argsString}");
 
 				return 0;
 			}
 
 			using (var process = new Process())
 			{
-				process.StartInfo.FileName = editorPath;
+				process.StartInfo.FileName = editor.ExecutablePath;
 				process.StartInfo.UseShellExecute = false;
 				process.StartInfo.RedirectStandardOutput = true;
 				process.StartInfo.Arguments = argsString;
@@ -50,7 +50,7 @@ namespace Andtech.Gooball
 		public void Start()
 		{
 			var helper = new UnityInstallationHelper();
-			var version = Version.Parse(startInfo.PreferredEditorVersion);
+			var version = VersionUtility.Parse(startInfo.PreferredEditorVersion);
 			var editor = helper.GetBestEditor(version);
 
 			ExitCode = Execute(editor, startInfo.Args);

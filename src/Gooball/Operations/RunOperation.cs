@@ -18,10 +18,12 @@ namespace Andtech.Gooball
 		public static void OnParse(Options options)
 		{
 			var editorHelper = new UnityInstallationHelper();
+			var editor = editorHelper.GetInstalledEditors().First();
+
 			var startInfo = new UnityStartInfo(Interpreter.Instance.PassthroughArgs)
 			{
 				DryRun = options.DryRun,
-				PreferredEditorVersion = Path.GetFileName(editorHelper.GetInstalledEditors().First())
+				PreferredEditorVersion = Path.GetFileName(editor.VersionRaw)
 			};
 			var process = new UnityProcess(startInfo);
 			process.Start();

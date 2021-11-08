@@ -19,7 +19,7 @@ namespace Andtech.Gooball
 			var installationHelper = new UnityInstallationHelper(installPath);
 			foreach (var editor in installationHelper.GetInstalledEditors())
 			{
-				Console.WriteLine(editor);
+				Console.WriteLine($"{editor.VersionRaw} [{editor.ExecutablePath}]");
 			}
 		}
 	}
