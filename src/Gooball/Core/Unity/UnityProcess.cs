@@ -50,9 +50,10 @@ namespace Andtech.Gooball
 		public void Start()
 		{
 			var helper = new UnityInstallationHelper();
-			var editorPath = helper.GetBestEditor(startInfo.PreferredEditorVersion);
+			var version = Version.Parse(startInfo.PreferredEditorVersion);
+			var editor = helper.GetBestEditor(version);
 
-			ExitCode = Execute(editorPath, startInfo.Args);
+			ExitCode = Execute(editor, startInfo.Args);
 		}
 	}
 }

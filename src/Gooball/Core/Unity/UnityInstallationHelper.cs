@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -22,27 +23,29 @@ namespace Andtech.Gooball
 			}
 		}
 
-		private readonly Queue<string> editorRoots;
+		private readonly Queue<string> editorSearchPaths;
 
 		public UnityInstallationHelper(string editorInstallationRoot = null)
 		{
 			if (string.IsNullOrEmpty(editorInstallationRoot))
 			{
-				editorRoots = new Queue<string>(DEFAULT_PATHS);
+				editorSearchPaths = new Queue<string>(DEFAULT_PATHS);
 			}
 			else
 			{
-				editorRoots = new Queue<string>(1);
-				editorRoots.Enqueue(editorInstallationRoot);
+				editorSearchPaths = new Queue<string>(1);
+				editorSearchPaths.Enqueue(editorInstallationRoot);
 			}
 		}
 
-		public IEnumerable<string> GetInstalledEditors()
+		public IEnumerable<UnityEditor> GetInstalledEditors()
 		{
 			var windowsDriveRegex = new Regex("^C:");
 
-			var wsl = editorRoots.Where(x => windowsDriveRegex.IsMatch(x)).Select(x => windowsDriveRegex.Replace(x, "/mnt/c"));
-			var roots = editorRoots
+			var wsl = editorSearchPaths
+				.Where(x => windowsDriveRegex.IsMatch(x))
+				.Select(x => windowsDriveRegex.Replace(x, "/mnt/c"));
+			var roots = editorSearchPaths
 				.Concat(wsl);
 
 			foreach (var editorRoot in roots)
@@ -58,50 +61,26 @@ namespace Andtech.Gooball
 				catch (IOException) { }
 			}
 
-			return Enumerable.Empty<string>();
+			return Enumerable.Empty<UnityEditor>();
 		}
 
-		public string GetBestEditor(string projectVersion)
+		public UnityEditor GetBestEditor(Version version)
 		{
 			var installedEditors = GetInstalledEditors();
+			var versionHelper = new VersionSelectionHelper(installedEditors.Select(x => x.Version));
 
-			string directory;
-			if (installedEditors.Any(Match))
-			{
-				directory = installedEditors.First(Match);
-			}
-			else
-			{
-				directory = installedEditors.First();
-			}
+			var bestVersion = versionHelper.GetBestVersion(version);
 
-			return GetExecutablePath(directory);
-
-			bool Match(string path) => Path.GetFileName(path) == projectVersion;
+			return installedEditors.First(x => x.Version == bestVersion);
 		}
 
-		public static string GetExecutablePath(string directory)
-		{
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-			{
-				return Path.Join(directory, "Unity.app/Contents/MacOS/Unity");
-			}
-			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-			{
-				return Path.Join(directory, "Editor/Unity.exe");
-			}
-
-			return Path.Join(directory, "Editor/Unity.exe");
-		}
-
-		private IEnumerable<string> GetInstalledEditors(string root)
+		private IEnumerable<UnityEditor> GetInstalledEditors(string root)
 		{
 			var editors =
 				from path in Directory.EnumerateDirectories(root, "*")
-				orderby path descending
-				select path;
+				select UnityEditor.Read(path);
 
-			return editors;
+			return editors.OrderByDescending(x => x.Version);
 		}
 	}
 }
