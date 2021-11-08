@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using System;
 
 namespace Gooball
 {
@@ -12,7 +13,11 @@ namespace Gooball
 
 		public static void OnParse(Options options)
 		{
-			System.Console.WriteLine("Open");
+			var project = Project.Read(options.ProjectPath);
+			var args = new UnityArgs(Interpreter.Instance.PassthroughArgs);
+			var exitCode = new UnityProcess(args).Open(project);
+
+			Environment.Exit(exitCode);
 		}
 	}
 
@@ -25,7 +30,11 @@ namespace Gooball
 
 		public static void OnParse(Options options)
 		{
-			System.Console.WriteLine("Build");
+			var project = Project.Read(options.ProjectPath);
+			var args = new UnityArgs(Interpreter.Instance.PassthroughArgs);
+			var exitCode = new UnityProcess(args).Build(project);
+
+			Environment.Exit(exitCode);
 		}
 	}
 
@@ -40,7 +49,11 @@ namespace Gooball
 
 		public static void OnParse(Options options)
 		{
-			System.Console.WriteLine("Test");
+			var project = Project.Read(options.ProjectPath);
+			var argss = new UnityArgs(Interpreter.Instance.PassthroughArgs);
+			var exitCode = new UnityProcess(args).Test(project);
+
+			Environment.Exit(exitCode);
 		}
 	}
 }

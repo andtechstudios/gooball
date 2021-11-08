@@ -34,7 +34,7 @@ namespace Gooball
 			void Run()
 			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-				var exitCode = new UnityRunner(unityArgs).Run();
+				var exitCode = new UnityProcess(unityArgs).Run();
 
 				Environment.Exit(exitCode);
 			}

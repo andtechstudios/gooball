@@ -9,11 +9,10 @@ namespace Gooball
 
 		public static void OnParse(object options)
 		{
-			/*
-			var projectPath = options.ProjectPath;
+			var projectPath = string.Empty;
 			var project = Project.Read(projectPath);
 
-			switch (options.Command)
+			switch (string.Empty)
 			{
 				case "open":
 					Open();
@@ -35,7 +34,7 @@ namespace Gooball
 			void Open()
 			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-				var exitCode = new UnityRunner(unityArgs).Open(project);
+				var exitCode = new UnityProcess(unityArgs).Open(project);
 
 				Environment.Exit(exitCode);
 			}
@@ -43,7 +42,7 @@ namespace Gooball
 			void Build()
 			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-				var exitCode = new UnityRunner(unityArgs).Build(project);
+				var exitCode = new UnityProcess(unityArgs).Build(project);
 
 				Environment.Exit(exitCode);
 			}
@@ -51,7 +50,7 @@ namespace Gooball
 			void Test()
 			{
 				var unityArgs = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-				var exitCode = new UnityRunner(unityArgs).Test(project);
+				var exitCode = new UnityProcess(unityArgs).Test(project);
 
 				Environment.Exit(exitCode);
 			}
@@ -65,7 +64,6 @@ namespace Gooball
 			{
 				Console.WriteLine(project.EditorVersion);
 			}
-			/**/
 		}
 	}
 }

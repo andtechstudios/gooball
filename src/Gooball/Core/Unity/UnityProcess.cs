@@ -5,11 +5,11 @@ using System.Linq;
 namespace Gooball
 {
 
-	internal class UnityRunner
+	internal class UnityProcess
 	{
 		public readonly UnityArgs Args;
 
-		public UnityRunner(UnityArgs args)
+		public UnityProcess(UnityArgs args)
 		{
 			Args = args;
 		}
@@ -108,6 +108,11 @@ namespace Gooball
 			{
 				return $"\"{arg}\"";
 			}
+		}
+
+		public static UnityProcess Start(UnityArgs args)
+		{
+
 		}
 	}
 }
