@@ -3,10 +3,10 @@
 namespace Gooball
 {
 
-	internal class OpenUnity
+	internal class OpenCommand
 	{
 		[Verb("open", isDefault: true, HelpText = "Open a Unity project with the Unity editor.")]
-		public class Options : BaseUnityOptions
+		public class Options : UnityProjectOptions
 		{
 		}
 
@@ -16,10 +16,10 @@ namespace Gooball
 		}
 	}
 
-	internal class BuildUnity
+	internal class BuildCommand
 	{
-		[Verb("build", HelpText = "Open a Unity project with the Unity editor.")]
-		internal class Options : BaseUnityOptions
+		[Verb("build", HelpText = "Build a Unity project.")]
+		internal class Options : UnityProjectOptions
 		{
 		}
 
@@ -29,10 +29,10 @@ namespace Gooball
 		}
 	}
 
-	internal class TestUnity
+	internal class TestCommand
 	{
-		[Verb("test", HelpText = "Open a Unity project with the Unity editor.")]
-		internal class Options : BaseUnityOptions
+		[Verb("test", HelpText = "Run tests on Unity project.")]
+		internal class Options : UnityProjectOptions
 		{
 			[Option("test-results", HelpText = "The path where Unity should save the result file.")]
 			public string TestResults { get; set; }

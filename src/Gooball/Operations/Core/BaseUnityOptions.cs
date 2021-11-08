@@ -2,11 +2,9 @@
 
 namespace Gooball
 {
+
 	internal class BaseUnityOptions
 	{
-		[Value(0, Required = false, Default = "./", HelpText = "The path to the Unity project.")]
-		[Option("project-path", HelpText = "Open the project at the given path. If the pathname contains spaces, enclose it in quotes.")]
-		public string ProjectPath { get; set; }
 		[Option("execute-method", HelpText = "Execute the static method as soon as Unity opens the project, and after the optional Asset server update is complete.")]
 		public string ExecuteMethod { get; set; }
 		[Option("build-target", HelpText = "Select an active build target before loading a project.")]

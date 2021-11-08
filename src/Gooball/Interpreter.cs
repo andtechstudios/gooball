@@ -11,7 +11,7 @@ namespace Gooball
 	/// </summary>
 	public class Interpreter
 	{
-		public string[] Args { get; private set; }
+		public string[] ToolArgs { get; private set; }
 		public string[] PassthroughArgs { get; private set; }
 
 		public static Interpreter Instance { get; private set; }
@@ -25,14 +25,17 @@ namespace Gooball
 
 		public void Run(string[] args)
 		{
-			ArgumentUtility.SplitArgs(args, out var gooArgs, out var passthroughArgs);
-			Args = gooArgs;
+			ArgumentUtility.SplitArgs(args, out var toolArgs, out var passthroughArgs);
+			ToolArgs = toolArgs;
 			PassthroughArgs = passthroughArgs;
 
-			Parser.Default.ParseArguments<OpenUnity.Options, BuildUnity.Options, TestUnity.Options>(gooArgs)
-				.WithParsed<OpenUnity.Options>(OpenUnity.OnParse)
-				.WithParsed<BuildUnity.Options>(BuildUnity.OnParse)
-				.WithParsed<TestUnity.Options>(TestUnity.OnParse)
+			Parser.Default.ParseArguments<OpenCommand.Options, BuildCommand.Options, TestCommand.Options, RunCommand.Options, ListCommand.Options, HideCommand.Options>(toolArgs)
+				.WithParsed<OpenCommand.Options>(OpenCommand.OnParse)
+				.WithParsed<BuildCommand.Options>(BuildCommand.OnParse)
+				.WithParsed<TestCommand.Options>(TestCommand.OnParse)
+				.WithParsed<RunCommand.Options>(RunCommand.OnParse)
+				.WithParsed<ListCommand.Options>(ListCommand.OnParse)
+				.WithParsed<HideCommand.Options>(HideCommand.OnParse)
 			;
 		}
 	}
