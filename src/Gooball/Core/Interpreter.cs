@@ -25,7 +25,7 @@ namespace Gooball
 
 		public void Run(string[] args)
 		{
-			ArgsHelper.SplitArgs(args, out var gooArgs, out var passthroughArgs);
+			ArgumentUtility.SplitArgs(args, out var gooArgs, out var passthroughArgs);
 			Args = gooArgs;
 			PassthroughArgs = passthroughArgs;
 

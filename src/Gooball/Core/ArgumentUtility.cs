@@ -5,7 +5,7 @@ using System.Linq;
 namespace Gooball
 {
 
-	internal class ArgsHelper
+	internal class ArgumentUtility
 	{
 
 		internal static void SplitArgs(IList<string> args, out string[] leftArgs, out string[] rightArgs)
