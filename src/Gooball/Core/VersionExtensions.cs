@@ -31,5 +31,22 @@ namespace Gooball
 					return version;
 			}
 		}
+
+		public static int GetSubVersion(this Version version, VersionFlag subVersion)
+		{
+			switch (subVersion)
+			{
+				case VersionFlag.Major:
+					return version.Major;
+				case VersionFlag.Minor:
+					return version.Minor;
+				case VersionFlag.Build:
+					return version.Build;
+				case VersionFlag.Revision:
+					return version.Revision;
+			}
+
+			return -1;
+		}
 	}
 }
