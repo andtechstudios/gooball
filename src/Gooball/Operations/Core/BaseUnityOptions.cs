@@ -5,6 +5,8 @@ namespace Gooball
 
 	internal class BaseUnityOptions
 	{
+		[Option("dry-run", HelpText = "Dry run this command", Hidden = false)]
+		public bool DryRun { get; set; }
 		[Option("execute-method", HelpText = "Execute the static method as soon as Unity opens the project, and after the optional Asset server update is complete.")]
 		public string ExecuteMethod { get; set; }
 		[Option("build-target", HelpText = "Select an active build target before loading a project.")]
@@ -15,7 +17,5 @@ namespace Gooball
 		public bool ForgetProjectPath { get; set; }
 		[Option("no-graphics", HelpText = "When you run this in batch mode, it does not initialize the graphics device.")]
 		public bool NoGraphics { get; set; }
-		[Option("dry-run", HelpText = "Dry run this command", Hidden = false)]
-		public bool DryRun { get; set; }
 	}
 }

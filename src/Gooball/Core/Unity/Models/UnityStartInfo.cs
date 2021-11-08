@@ -11,7 +11,7 @@ namespace Gooball
 
 		public readonly List<string> args;
 
-		private UnityStartInfo(params string[] collection)
+		public UnityStartInfo(params string[] collection)
 		{
 			args = new List<string>(collection);
 		}

@@ -63,16 +63,13 @@ namespace Gooball
 		{
 			var installedEditors = GetInstalledEditors();
 
-			System.Console.WriteLine(projectVersion);
 			string directory;
 			if (installedEditors.Any(Match))
 			{
-				System.Console.WriteLine("Exact match");
 				directory = installedEditors.First(Match);
 			}
 			else
 			{
-				System.Console.WriteLine("Must upgrade/downgrade");
 				directory = installedEditors.First();
 			}
 
