@@ -10,7 +10,7 @@ namespace Andtech.Gooball
 		[Verb("hide", HelpText = "Hide assets from the Unity asset database.")]
 		public class Options
 		{
-			[Value(0, HelpText = "Hides the path in a package manifest instead of the filesystem.")]
+			[Value(0, Required = true, HelpText = "The path to the asset or folder to hide.")]
 			public string TargetPath { get; set; }
 			[Option("in-package", HelpText = "Hides the path in a package manifest instead of the filesystem.")]
 			public string PackagePath { get; set; }
@@ -21,40 +21,31 @@ namespace Andtech.Gooball
 			if (string.IsNullOrEmpty(options.PackagePath))
 			{
 				var targetPath = options.TargetPath;
-				HideFolder();
-				HideMetaFile();
+				var fileName = Path.GetFileName(targetPath);
+				var directory = Path.GetDirectoryName(targetPath);
+				var destinationPath = Path.Join(directory, $"{fileName}~");
+				var metaFilePath = string.Concat(targetPath, ".meta");
 
-				void HideFolder()
+				if (Directory.Exists(targetPath))
 				{
-					var fileName = Path.GetFileName(targetPath);
-					var directory = Path.GetDirectoryName(targetPath);
-					var destinationPath = Path.Join(directory, $"{fileName}~");
-
-					if (Directory.Exists(targetPath))
+					if (Directory.Exists(destinationPath))
 					{
-						if (Directory.Exists(destinationPath))
-						{
-							Directory.Delete(destinationPath, true);
-						}
-						Directory.Move(targetPath, destinationPath);
+						Directory.Delete(destinationPath, true);
 					}
-					else if (File.Exists(targetPath))
+					Directory.Move(targetPath, destinationPath);
+				}
+				else if (File.Exists(targetPath))
+				{
+					if (File.Exists(destinationPath))
 					{
-						if (File.Exists(destinationPath))
-						{
-							File.Delete(destinationPath);
-						}
-						File.Move(targetPath, destinationPath);
+						File.Delete(destinationPath);
 					}
+					File.Move(targetPath, destinationPath);
 				}
 
-				void HideMetaFile()
+				if (File.Exists(metaFilePath))
 				{
-					var metaFilePath = Path.ChangeExtension(targetPath, ".meta");
-					if (File.Exists(metaFilePath))
-					{
-						File.Delete(metaFilePath);
-					}
+					File.Delete(metaFilePath);
 				}
 			}
 			else

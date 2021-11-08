@@ -9,16 +9,27 @@ namespace Andtech.Gooball.Tests
 	{
 
 		[Test]
-		public void HideAsset()
+		public void HideDirectoryAsset()
 		{
-			var folderPath = Path.Combine(ExamplePackageRoot, "Samples");
-			var metafilePath = Path.ChangeExtension(folderPath, ".meta");
+			var assetPath = Path.Combine(ExamplePackageRoot, "Samples");
 
-			Interpreter.Instance.Run(new string[] { "hide", folderPath });
+			Interpreter.Instance.Run(new string[] { "hide", assetPath });
 
-			Assert.IsFalse(Directory.Exists(folderPath));
-			Assert.IsTrue(Directory.Exists(folderPath + "~"));
-			Assert.IsFalse(File.Exists(metafilePath));
+			Assert.IsFalse(Directory.Exists(assetPath));
+			Assert.IsTrue(Directory.Exists(assetPath + "~"));
+			Assert.IsFalse(File.Exists(assetPath + ".meta"));
+		}
+
+		[Test]
+		public void HideFileAsset()
+		{
+			var assetPath = Path.Combine(ExamplePackageRoot, "README.md");
+
+			Interpreter.Instance.Run(new string[] { "hide", assetPath });
+
+			Assert.IsFalse(File.Exists(assetPath));
+			Assert.IsTrue(File.Exists(assetPath + "~"));
+			Assert.IsFalse(File.Exists(assetPath + ".meta"));
 		}
 
 		[Test]
