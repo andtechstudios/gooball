@@ -68,7 +68,6 @@ namespace Andtech.Gooball
 		{
 			var editors = GetInstalledEditors();
 			var versionHelper = new VersionSelectionHelper(editors.Select(x => x.Version));
-
 			var bestVersion = versionHelper.GetBestVersion(version);
 
 			return editors.First(x => x.Version == bestVersion);
