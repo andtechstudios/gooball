@@ -18,7 +18,6 @@ namespace Gooball
 	internal static class UnityOperation
 	{
 
-		[Operation(typeof(UnityOptions))]
 		public static void OnParse(UnityOptions options)
 		{
 			switch (options.Command)

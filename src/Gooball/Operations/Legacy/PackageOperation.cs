@@ -31,7 +31,6 @@ namespace Gooball
 	internal static class PackageOperation
 	{
 
-		[Operation(typeof(PackageOptions))]
 		public static void OnParse(PackageOptions options)
 		{
 			var packagePath = options.PackagePath;

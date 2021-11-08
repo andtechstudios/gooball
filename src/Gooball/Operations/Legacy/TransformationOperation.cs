@@ -22,7 +22,6 @@ namespace Gooball
 	internal static class TransformationOperation
 	{
 
-		[Operation(typeof(TransformationOptions))]
 		public static void OnParse(TransformationOptions options)
 		{
 			switch (options.Command)

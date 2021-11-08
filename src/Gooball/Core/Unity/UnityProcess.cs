@@ -112,7 +112,7 @@ namespace Gooball
 
 		public static UnityProcess Start(UnityArgs args)
 		{
-
+			return new UnityProcess(args);
 		}
 	}
 }

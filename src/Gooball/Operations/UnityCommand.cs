@@ -15,7 +15,7 @@ namespace Gooball
 		{
 			var project = Project.Read(options.ProjectPath);
 			var args = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-			var exitCode = new UnityProcess(args).Open(project);
+			var exitCode = UnityProcess.Start(args).Open(project);
 
 			Environment.Exit(exitCode);
 		}
@@ -32,7 +32,7 @@ namespace Gooball
 		{
 			var project = Project.Read(options.ProjectPath);
 			var args = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-			var exitCode = new UnityProcess(args).Build(project);
+			var exitCode = UnityProcess.Start(args).Build(project);
 
 			Environment.Exit(exitCode);
 		}
@@ -50,8 +50,8 @@ namespace Gooball
 		public static void OnParse(Options options)
 		{
 			var project = Project.Read(options.ProjectPath);
-			var argss = new UnityArgs(Interpreter.Instance.PassthroughArgs);
-			var exitCode = new UnityProcess(args).Test(project);
+			var args = new UnityArgs(Interpreter.Instance.PassthroughArgs);
+			var exitCode = UnityProcess.Start(args).Test(project);
 
 			Environment.Exit(exitCode);
 		}
