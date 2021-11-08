@@ -7,7 +7,7 @@ using System.Linq;
 namespace Gooball
 {
 
-	public class GooballTests
+	public class BaseGooballTests
 	{
 		protected static readonly string ExampleProjectRoot = @"Example Unity Project";
 		protected static readonly string ExamplePackageRoot = @"Example Unity Project/Assets/Standard Assets/Example Package";

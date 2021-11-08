@@ -5,7 +5,7 @@ using System.IO;
 namespace Gooball.Tests
 {
 
-	public class UnityTests : GooballTests
+	public class EditorTests : BaseGooballTests
 	{
 		private static readonly string[] EDITORS = new string[] {
 			Path.Combine(ExampleEditorInstallRoot, "2019.1.0"),
