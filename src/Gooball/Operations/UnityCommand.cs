@@ -6,7 +6,7 @@ namespace Andtech.Gooball
 
 	internal class OpenCommand
 	{
-		[Verb("open", isDefault: true, HelpText = "Open a Unity project with the Unity editor.")]
+		[Verb("open", isDefault: true, HelpText = "Open a Unity project with a Unity editor.")]
 		public class Options : UnityProjectOptions
 		{
 		}

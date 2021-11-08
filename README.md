@@ -1,124 +1,64 @@
-# Gooball (Preview)
+# Gooball
+*Build, test, and manage Unity projects from the command line. Develop custom Unity packages, manipulate Unity files/folders, and more.*
+
 [![GitHub tag](https://img.shields.io/nuget/v/Gooball)](https://www.nuget.org/packages/Gooball/)
 
-Build, test, and manage Unity projects from the command line. Develop custom Unity packages, manipulate Unity files/folders, and more.
+# Setup
+## Prerequisites
+* Gooball is a [.NET tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) and requires at least [.NET Core 2.1 SDK](https://www.microsoft.com/net/download/core).
 
-## Setup
-### Prerequisites
-Gooball is a [.NET tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) and requires at least [.NET Core 2.1 SDK](https://www.microsoft.com/net/download/core).
-
-### Installation
-To install Gooball, use `dotnet tool install`.
+## Installation
+1. Install with `dotnet tool install`.
 ```
-> dotnet tool install --global Gooball
-
-You can invoke the tool using the following command: goo
-Tool 'gooball' was successfully installed.
+$ dotnet tool install --global Gooball
 ```
 
-To uninstall, use `dotnet tool uninstall`.
+## Uninstallation
+1. Use `dotnet tool uninstall`.
 ```
-> dotnet tool uninstall --global Gooball
-
-Tool 'gooball' was successfully uninstalled.
-```
-
-## Usage
-All Gooball commands use the following grammar:
-```
-goo <CATEGORY> <COMMAND> [<OPTIONS>] <ARGUMENTS>
+$ dotnet tool uninstall --global Gooball
 ```
 
-| Category | Syntax | Description |
-| -: | :-: | :- |
-| Project | `project` | Manage a Unity project. |
-| Package Development |`package` | Manage a custom Unity package. |
-| Unity | `unity` | Project-independent unity operations. |
-| File Transformation | `transform` | Properly manipulate a Unity file/folder. |
+# Usage
 
-### I. Project Commands
-#### Build a Unity Project
+## Open a Unity project with a Unity editor
 ```
-goo project build [--editor <EDITOR_PATH>] [<PROJECT_PATH>] [-- <ARGS...>]
-```
-- If `PROJECT_PATH` is not provided, the current directory is used as the project path
-- Use the `editor` option to use a specific version of the Unity editor
-- `ARGS...` will be passed as arguments to `unity.exe`
-
-#### Run Tests on a Unity Project
-```
-goo project test [--editor <EDITOR_PATH>] [<PROJECT_PATH>] [-- <ARGS...>]
-```
-- If `PROJECT_PATH` is not provided, the current directory is used as the project path
-- Use the `editor` option to use a specific version of the Unity editor
-- `ARGS...` will be passed as arguments to `unity.exe`
-
-#### Open a Unity Project
-```
-goo project open [--editor <EDITOR_PATH>] [<PROJECT_PATH>] [-- <ARGS...>]
-```
-- If `PROJECT_PATH` is not provided, the current directory is used as the project path
-- Use the `editor` option to use a specific version of the Unity editor
-- `ARGS...` will be passed as arguments to `unity.exe`
-
-Examples
-```
-Open Unity project in background
-> goo project open "My Game" &
-```
-#### Print the Version of a Unity Project
-```
-goo project get-version [<PROJECT_PATH>]
+$ goo <PROJECT_PATH> [-- [args..]]
 ```
 
-#### Print the Editor Version of a Unity Project
+> Everything after `--` will be passed to the Unity process (e.g. `Unity.exe`).
+
+## Build a Unity project
 ```
-goo project get-editor-version [<PROJECT_PATH>]
+$ goo build <PROJECT_PATH> [-- [args..]]
 ```
 
-### II. Package Commands
-#### Print the Version of a Package
+> Everything after `--` will be passed to the Unity process (e.g. `Unity.exe`).
+
+## Run tests on Unity project
 ```
-goo package get-version [<PACKAGE_PATH>]
+$ goo test <PROJECT_PATH> [-- [args..]]
 ```
 
-#### Ignore a Folder in a Package Manifest
+> Everything after `--` will be passed to the Unity process (e.g. `Unity.exe`).
+
+## Run arbitrary Unity commands
 ```
-goo package ignore-folder <PACKAGE_PATH> <FOLDER_PATH>
+$ goo run [-- [args..]]
 ```
 
-#### Bump the Version of a Package
+> Everything after `--` will be passed to the Unity process (e.g. `Unity.exe`).
+
+## Hide assets from the Unity asset database
+
+*This hides assets from Unity during the import process (see [Unity - Manual: Special folder names](https://docs.unity3d.com/Manual/SpecialFolders.html) for more details)*
+
 ```
-goo package bump (--major | --minor | --patch) [<PACKAGE_PATH>]
+$ goo hide <PATH_TO_ASSET>
+$ goo hide [--in-package <PATH_TO_PACKAGE>] <PATH_TO_ASSET>
 ```
 
-### III. Unity Commands
-#### Print All Installed Unity Editors
+## List installed editors
 ```
-goo unity list-installs [<EDITOR_INSTALL_PATH>]
+$ goo list
 ```
-
-### IV. Transformation Commands
-#### Hide a Folder from Unity Importer
-```
-goo transform hide-folder <FOLDER_PATH>
-```
-
-#### Inject Text into Unity Source Code File
-```
-goo transform inject <FILE_PATH> [<HEADERFILE_PATH>]
-```
-- If `HEADERFILE_PATH` is not provided, the header is read from `stdin`.
-
-Examples
-```
-File argument example
-> goo transform inject Program.cs licenseHeader.txt
-
-Stream redirection example
-> cat licenseHeader.txt | goo transform inject Program.cs
-```
-
-## Links
-- [NuGet Gallery](https://www.nuget.org/packages/Gooball/)
-- [GitHub](https://github.com/AndrewMJordan/gooball)
