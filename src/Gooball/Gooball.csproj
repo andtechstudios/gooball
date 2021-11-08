@@ -1,63 +1,64 @@
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-    <StartupObject></StartupObject>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
-    <PackageIcon>icon.png</PackageIcon>
-    <Authors>AndrewMJordan</Authors>
-    <Version>0.5.7</Version>
-    <Description>Build, test, and manage Unity projects from the command line</Description>
-    <PackageProjectUrl>https://github.com/andtechstudios/gooball</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/andtechstudios/gooball</RepositoryUrl>
-    <AssemblyVersion>0.0.5.7</AssemblyVersion>
-    <FileVersion>0.0.5.7</FileVersion>
-    <PackageTags>gooball;goo;unity;tool;cli</PackageTags>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Copyright>© Andtech Studios 2021</Copyright>
-    <FileUpgradeFlags>40</FileUpgradeFlags>
-    <UpgradeBackupLocation>C:\Users\andrew\Desktop\gooball-work\gooball\Backup\src\Gooball\</UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
-  </PropertyGroup>
-  <!-- Dependencies -->
-  <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-  </ItemGroup>
-  <!-- Dotnet Tool Specific settings -->
-  <PropertyGroup>
-    <PackAsTool>true</PackAsTool>
-    <PackageId>Andtech.Gooball</PackageId>
-    <ToolCommandName>goo</ToolCommandName>
-    <PackageOutputPath>./nupkg</PackageOutputPath>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-  <!-- NuGet settings -->
-  <PropertyGroup>
-    <Deterministic>true</Deterministic>
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression></PackageLicenseExpression>
-    <AssemblyName>Andtech.Gooball</AssemblyName>
-    <RootNamespace>Andtech.Gooball</RootNamespace>
-    <Product>Gooball</Product>
-    <Company>Andtech Studios</Company>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="icon.png">
-      <Pack>True</Pack>
-      <PackagePath>
-      </PackagePath>
-    </None>
-  </ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+		<Version>0.5.7</Version>
+		<StartupObject>Andtech.Gooball.Program</StartupObject>
+	</PropertyGroup>
+
+	<!-- NuGet settings -->
+	<PropertyGroup>
+		<Deterministic>true</Deterministic>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<AssemblyName>Andtech.Gooball</AssemblyName>
+		<AssemblyVersion>0.5.7.0</AssemblyVersion>
+		<FileVersion>0.5.7.0</FileVersion>
+		<Product>Gooball</Product>
+		<RepositoryUrl>https://github.com/andtechstudios/gooball</RepositoryUrl>
+		<RootNamespace>Gooball</RootNamespace>
+		<Company>Andtech Studios</Company>
+		<Authors>andtechstudios</Authors>
+	</PropertyGroup>
+
+	<!-- Dotnet Tool settings -->
+	<PropertyGroup>
+		<PackAsTool>true</PackAsTool>
+		<PackageId>Andtech.Gooball</PackageId>
+		<ToolCommandName>goo</ToolCommandName>
+		<PackageOutputPath>./nupkg</PackageOutputPath>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageIconUrl />
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<Copyright>© Andtech Studios 2021</Copyright>
+		<PackageProjectUrl>https://github.com/andtechstudios/gooball</PackageProjectUrl>
+		<PackageTags>gooball;goo;unity;tool;cli</PackageTags>
+		<NeutralLanguage>English</NeutralLanguage>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<Description>Build, test, and manage Unity projects from the command line</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="icon.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
+	<!-- Dependencies -->
+	<ItemGroup>
+		<PackageReference Include="CommandLineParser" Version="2.8.0" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	</ItemGroup>
 </Project>
