@@ -32,11 +32,6 @@ namespace Andtech.Gooball
 		public static UnityStartInfo Build(UnityProjectOptions options, params string[] args)
 		{
 			var startInfo = new UnityStartInfo(args);
-			if (!ArgumentUtility.HasFlag(args, "projectPath"))
-			{
-				startInfo.Args.Add("-projectPath");
-				startInfo.Args.Add(options.ProjectPath);
-			}
 			if (!ArgumentUtility.HasFlag(args, "batchMode"))
 			{
 				startInfo.Args.Add("-batchMode");
@@ -44,6 +39,11 @@ namespace Andtech.Gooball
 			if (!ArgumentUtility.HasFlag(args, "quit"))
 			{
 				startInfo.Args.Add("-quit");
+			}
+			if (!ArgumentUtility.HasFlag(args, "projectPath"))
+			{
+				startInfo.Args.Add("-projectPath");
+				startInfo.Args.Add(options.ProjectPath);
 			}
 			startInfo.DryRun = options.DryRun;
 
@@ -53,22 +53,18 @@ namespace Andtech.Gooball
 		public static UnityStartInfo Test(UnityProjectOptions options, params string[] args)
 		{
 			var startInfo = new UnityStartInfo(args);
-			if (!ArgumentUtility.HasFlag(args, "projectPath"))
+			if (!ArgumentUtility.HasFlag(args, "runTests"))
 			{
-				startInfo.Args.Add("-projectPath");
-				startInfo.Args.Add(options.ProjectPath);
+				startInfo.args.Add($"-runTests");
 			}
 			if (!ArgumentUtility.HasFlag(args, "batchMode"))
 			{
 				startInfo.Args.Add("-batchMode");
 			}
-			if (!ArgumentUtility.HasFlag(args, "quit"))
+			if (!ArgumentUtility.HasFlag(args, "projectPath"))
 			{
-				startInfo.Args.Add("-quit");
-			}
-			if (!ArgumentUtility.HasFlag(args, "runTests"))
-			{
-				startInfo.args.Add($"-runTests");
+				startInfo.Args.Add("-projectPath");
+				startInfo.Args.Add(options.ProjectPath);
 			}
 			startInfo.DryRun = options.DryRun;
 
