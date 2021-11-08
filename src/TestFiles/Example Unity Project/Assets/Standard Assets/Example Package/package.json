@@ -28,10 +28,10 @@
 	],	
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/AndtechGames/example.git",
+		"url": "git://github.com/andtechstudios/example.git",
 		"directory": "Project/Assets/Package"
 	},
 	"publishConfig": {
-		"registry": "https://npm.pkg.github.com/@AndtechGames"
+		"registry": "https://npm.pkg.github.com/@andtechstudios"
 	}
 }
