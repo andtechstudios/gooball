@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 namespace Gooball
 {
 
+
 	[Verb("package", HelpText = "Commands for working with custom Unity packages.")]
 	internal class PackageOptions
 	{

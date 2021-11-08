@@ -4,25 +4,12 @@ using System;
 namespace Gooball
 {
 
-	[Verb("project", isDefault: true, HelpText = "Commands for working with Unity projects.")]
-	internal class ProjectOptions
-	{
-		[Value(0, Required = true, Default = "open", MetaName = "command", HelpText = "The project action to perform.")]
-		public string Command { get; set; }
-		[Value(1, Required = false, Default = "./", HelpText = "The path to the Unity project.")]
-		public string ProjectPath { get; set; }
-
-		// Run, Test options
-		[Option("editor", HelpText = "A specific version of the Unity editor to use")]
-		public string EditorPath { get; set; }
-	}
-
 	internal static class ProjectOperation
 	{
 
-		[Operation(typeof(ProjectOptions))]
-		public static void OnParse(ProjectOptions options)
+		public static void OnParse(object options)
 		{
+			/*
 			var projectPath = options.ProjectPath;
 			var project = Project.Read(projectPath);
 
@@ -78,6 +65,7 @@ namespace Gooball
 			{
 				Console.WriteLine(project.EditorVersion);
 			}
+			/**/
 		}
 	}
 }
