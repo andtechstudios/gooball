@@ -21,25 +21,5 @@ namespace Gooball.Tests
 			Assert.IsTrue(Directory.Exists(folderPath + "~"));
 			Assert.IsFalse(File.Exists(metafilePath));
 		}
-
-		[Test]
-		public void InjectOperations()
-		{
-			var filePath = Path.Combine(ExampleProjectRoot, "Assets/Scripts/Script.cs");
-			var headerPath = "preamble.txt";
-
-			Interpreter.Instance.Run(new string[] { "transform", "inject", "--headerfile", headerPath, filePath });
-
-			var header = File.ReadAllText(headerPath);
-			var contents = File.ReadAllText(filePath);
-
-			var headerLines = header.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-			var fileLines = contents.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-
-			foreach (var line in headerLines)
-			{
-				Assert.IsTrue(fileLines.Any(x => x.Contains(line)));
-			}
-		}
 	}
 }

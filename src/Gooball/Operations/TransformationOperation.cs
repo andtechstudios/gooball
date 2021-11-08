@@ -27,17 +27,9 @@ namespace Gooball
 		{
 			switch (options.Command)
 			{
-				case "inject":
-					Inject();
-					break;
 				case "hide-folder":
 					HideUnityFolder();
 					break;
-			}
-
-			void Inject()
-			{
-				new Injector() { HeaderFilePath = options.HeaderFilePath }.Prepend(options.Target);
 			}
 
 			void HideUnityFolder()
