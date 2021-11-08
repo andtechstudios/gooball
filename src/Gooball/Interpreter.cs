@@ -1,9 +1,6 @@
 ﻿using CommandLine;
-using System;
-using System.Linq;
-using System.Reflection;
 
-namespace Gooball
+namespace Andtech.Gooball
 {
 
 	/// <summary>
@@ -11,7 +8,7 @@ namespace Gooball
 	/// </summary>
 	public class Interpreter
 	{
-		public string[] Args { get; private set; }
+		public string[] ToolArgs { get; private set; }
 		public string[] PassthroughArgs { get; private set; }
 
 		public static Interpreter Instance { get; private set; }
@@ -25,42 +22,18 @@ namespace Gooball
 
 		public void Run(string[] args)
 		{
-			ArgsHelper.SplitArgs(args, out var gooArgs, out var passthroughArgs);
-			Args = gooArgs;
+			ArgumentUtility.SplitArgs(args, out var toolArgs, out var passthroughArgs);
+			ToolArgs = toolArgs;
 			PassthroughArgs = passthroughArgs;
 
-			var types = LoadVerbs();
-			var operations = LoadOperations();
-
-			Parser.Default.ParseArguments(gooArgs, types)
-				.WithParsed(OnParse);
-
-			void OnParse(object options)
-			{
-				var type = options.GetType();
-
-				var operation = operations.First(x => x.GetCustomAttribute<OperationAttribute>().OptionType == type);
-				operation.Invoke(null, new object[] { options });
-			}
-		}
-
-		private static Type[] LoadVerbs()
-		{
-			return Assembly
-				.GetExecutingAssembly()
-				.GetTypes()
-				.Where(t => t.GetCustomAttribute<VerbAttribute>() != null)
-				.ToArray();
-		}
-
-		private static MethodInfo[] LoadOperations()
-		{
-			return Assembly
-				.GetExecutingAssembly()
-				.GetTypes()
-				.SelectMany(t => t.GetMethods())
-				.Where(m => m.GetCustomAttribute<OperationAttribute>() != null)
-				.ToArray();
+			Parser.Default.ParseArguments<OpenCommand.Options, BuildCommand.Options, TestCommand.Options, RunCommand.Options, ListCommand.Options, HideCommand.Options>(toolArgs)
+				.WithParsed<OpenCommand.Options>(OpenCommand.OnParse)
+				.WithParsed<BuildCommand.Options>(BuildCommand.OnParse)
+				.WithParsed<TestCommand.Options>(TestCommand.OnParse)
+				.WithParsed<RunCommand.Options>(RunCommand.OnParse)
+				.WithParsed<ListCommand.Options>(ListCommand.OnParse)
+				.WithParsed<HideCommand.Options>(HideCommand.OnParse)
+			;
 		}
 	}
 }

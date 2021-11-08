@@ -1,5 +1,5 @@
 ﻿
-namespace Gooball
+namespace Andtech.Gooball
 {
 
 	internal class Program

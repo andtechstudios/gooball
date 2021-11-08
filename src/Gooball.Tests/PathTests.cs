@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace Gooball.Tests
+namespace Andtech.Gooball.Tests
 {
 
 	public class PathTests
