@@ -36,7 +36,8 @@
 		<ApplicationIcon>icon.ico</ApplicationIcon>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageIconUrl />
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+		
+		<!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<Copyright>© Andtech Studios 2021</Copyright>
 		<PackageProjectUrl>https://github.com/andtechstudios/gooball</PackageProjectUrl>
