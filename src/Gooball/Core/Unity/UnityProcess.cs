@@ -28,9 +28,9 @@ namespace Andtech.Gooball
 
 			var arguments = new List<string>(startInfo.Args);
 
-			var hadRequestedLogFile = ArgumentUtility.TryGetOption(startInfo.Args, "logFile", out var logFilePath);
-			var isUsingTempLogFile = startInfo.Verbose && !hadRequestedLogFile;
-			var isLogging = hadRequestedLogFile || isUsingTempLogFile;
+			var isUsingExplicitLogFile = ArgumentUtility.TryGetOption(startInfo.Args, "logFile", out var logFilePath);
+			var isUsingTempLogFile = startInfo.Follow && !isUsingExplicitLogFile;
+			var isLogging = isUsingExplicitLogFile || isUsingTempLogFile;
 			if (isUsingTempLogFile)
 			{
 				logFilePath = Path.GetTempFileName();
@@ -40,13 +40,6 @@ namespace Andtech.Gooball
 
 			var argsString = string.Join(" ", arguments.Select(x => $"\"{x}\""));
 
-			if (isUsingTempLogFile)
-			{
-				Console.ForegroundColor = ConsoleColor.Yellow;
-				Console.WriteLine($"Logfile at {logFilePath}");
-				Console.ResetColor();
-			}
-
 			if (startInfo.DryRun)
 			{
 				Console.WriteLine($"[DRY RUN] {editor.ExecutablePath} {argsString}");
@@ -55,9 +48,17 @@ namespace Andtech.Gooball
 			{
 				var cts = new CancellationTokenSource();
 
+				if (isUsingExplicitLogFile)
+				{
+					File.WriteAllText(logFilePath, string.Empty);
+				}
 				if (isLogging)
 				{
-					var logger = new LogDumper(logFilePath);
+					Console.ForegroundColor = ConsoleColor.Yellow;
+					Console.WriteLine($"Logfile at {logFilePath}");
+					Console.ResetColor();
+
+					var logger = new Tail(logFilePath);
 					logger.Listen(cts.Token);
 				}
 

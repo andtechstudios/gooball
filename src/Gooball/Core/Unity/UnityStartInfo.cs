@@ -7,7 +7,7 @@ namespace Andtech.Gooball
 	{
 		public string PreferredEditorVersion { get; set; }
 		public bool DryRun { get; set; }
-		public bool Verbose { get; set; }
+		public bool Follow { get; set; }
 		public List<string> Args => args;
 
 		private readonly List<string> args;
@@ -26,7 +26,7 @@ namespace Andtech.Gooball
 				startInfo.Args.Add(options.ProjectPath);
 			}
 			startInfo.DryRun = options.DryRun;
-			startInfo.Verbose = options.Verbose;
+			startInfo.Follow = options.Follow;
 
 			return startInfo;
 		}
@@ -48,7 +48,7 @@ namespace Andtech.Gooball
 				startInfo.Args.Add(options.ProjectPath);
 			}
 			startInfo.DryRun = options.DryRun;
-			startInfo.Verbose = options.Verbose;
+			startInfo.Follow = options.Follow;
 
 			return startInfo;
 		}
@@ -70,7 +70,7 @@ namespace Andtech.Gooball
 				startInfo.Args.Add(options.ProjectPath);
 			}
 			startInfo.DryRun = options.DryRun;
-			startInfo.Verbose = options.Verbose;
+			startInfo.Follow = options.Follow;
 
 			return startInfo;
 		}

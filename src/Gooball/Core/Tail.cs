@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace Andtech.Gooball
 {
-	internal class LogDumper
+
+	internal class Tail
 	{
 		private readonly string path;
 
-		public LogDumper(string path)
+		public Tail(string path)
 		{
 			this.path = path;
 		}
@@ -19,12 +20,14 @@ namespace Andtech.Gooball
 			using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 			using (var sr = new StreamReader(fs))
 			{
+				cancellationToken.Register(ReadToEnd);
+
 				if (sr.BaseStream.Length > 1024)
 				{
 					sr.BaseStream.Seek(-512, SeekOrigin.End);
 				}
 
-				while (!cancellationToken.IsCancellationRequested)
+				while (true)
 				{
 					string line = await sr.ReadLineAsync();
 
@@ -34,7 +37,15 @@ namespace Andtech.Gooball
 					}
 				}
 
-				Console.WriteLine("Is at end of stream: " + sr.EndOfStream);
+				void ReadToEnd()
+				{
+					string line = sr.ReadToEnd();
+
+					if (line != null)
+					{
+						Console.WriteLine(line);
+					}
+				}
 			}
 		}
 	}
