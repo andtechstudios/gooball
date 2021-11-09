@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Andtech.Gooball
@@ -29,6 +30,7 @@ namespace Andtech.Gooball
 
 			var hadRequestedLogFile = ArgumentUtility.TryGetOption(startInfo.Args, "logFile", out var logFilePath);
 			var isUsingTempLogFile = startInfo.Verbose && !hadRequestedLogFile;
+			var isLogging = hadRequestedLogFile || isUsingTempLogFile;
 			if (isUsingTempLogFile)
 			{
 				logFilePath = Path.GetTempFileName();
@@ -51,6 +53,14 @@ namespace Andtech.Gooball
 			}
 			else
 			{
+				var cts = new CancellationTokenSource();
+
+				if (isLogging)
+				{
+					var logger = new LogDumper(logFilePath);
+					logger.Listen(cts.Token);
+				}
+
 				using (var process = new Process())
 				{
 					process.StartInfo.FileName = editor.ExecutablePath;
@@ -63,11 +73,12 @@ namespace Andtech.Gooball
 
 					ExitCode = process.ExitCode;
 				}
+
+				cts.Cancel();
 			}
 
 			if (isUsingTempLogFile)
 			{
-				Console.WriteLine(File.ReadAllText(logFilePath));
 				File.Delete(logFilePath);
 			}
 		}
