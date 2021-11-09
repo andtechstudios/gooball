@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -17,10 +18,10 @@ namespace Andtech.Gooball
 			rightArgs = args.Skip(count + 1).ToArray();
 		}
 
-		public static bool TryGetOption(string[] args, string switchText, out string value)
+		public static bool TryGetOption(IList<string> args, string switchText, out string value)
 		{
 			var regex = new Regex($"(-|--)?{switchText}", RegexOptions.IgnoreCase);
-			for (int i = 0; i < args.Length; i++)
+			for (int i = 0; i < args.Count; i++)
 			{
 				if (regex.IsMatch(args[i]))
 				{
@@ -33,10 +34,10 @@ namespace Andtech.Gooball
 			return false;
 		}
 
-		public static bool HasFlag(string[] args, string switchText)
+		public static bool HasFlag(IList<string> args, string switchText)
 		{
 			var regex = new Regex($"(-|--)?{switchText}", RegexOptions.IgnoreCase);
-			for (int i = 0; i < args.Length; i++)
+			for (int i = 0; i < args.Count; i++)
 			{
 				if (regex.IsMatch(args[i]))
 				{
