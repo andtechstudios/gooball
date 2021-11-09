@@ -27,9 +27,9 @@ namespace Andtech.Gooball
 			PassthroughArgs = passthroughArgs;
 
 			Parser.Default.ParseArguments<OpenCommand.Options, BuildCommand.Options, TestCommand.Options, RunCommand.Options, ListCommand.Options, HideCommand.Options>(toolArgs)
-				.WithParsed<OpenCommand.Options>(OpenCommand.OnParse)
-				.WithParsed<BuildCommand.Options>(BuildCommand.OnParse)
-				.WithParsed<TestCommand.Options>(TestCommand.OnParse)
+				.WithParsed<OpenCommand.Options>(options => new OpenCommand().OnParse(options))
+				.WithParsed<BuildCommand.Options>(options => new BuildCommand().OnParse(options))
+				.WithParsed<TestCommand.Options>(options => new TestCommand().OnParse(options))
 				.WithParsed<RunCommand.Options>(RunCommand.OnParse)
 				.WithParsed<ListCommand.Options>(ListCommand.OnParse)
 				.WithParsed<HideCommand.Options>(HideCommand.OnParse)
