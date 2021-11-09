@@ -1,6 +1,5 @@
 ﻿using CommandLine;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -10,10 +9,7 @@ namespace Andtech.Gooball
 	internal class RunCommand
 	{
 		[Verb("run", HelpText = "Run arbitrary Unity commands.")]
-		public class Options : BaseUnityOptions
-		{
-			public IEnumerable<string> Arguments { get; set; }
-		}
+		public class Options : BaseUnityOptions { }
 
 		public static void OnParse(Options options)
 		{
