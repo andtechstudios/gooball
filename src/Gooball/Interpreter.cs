@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using System.Threading.Tasks;
 
 namespace Andtech.Gooball
 {
@@ -26,14 +27,16 @@ namespace Andtech.Gooball
 			ToolArgs = toolArgs;
 			PassthroughArgs = passthroughArgs;
 
-			Parser.Default.ParseArguments<OpenCommand.Options, BuildCommand.Options, TestCommand.Options, RunCommand.Options, ListCommand.Options, HideCommand.Options>(toolArgs)
-				.WithParsed<OpenCommand.Options>(options => new OpenCommand().OnParse(options))
-				.WithParsed<BuildCommand.Options>(options => new BuildCommand().OnParse(options))
-				.WithParsed<TestCommand.Options>(options => new TestCommand().OnParse(options))
+			var result = Parser.Default.ParseArguments<OpenCommand.Options, BuildCommand.Options, TestCommand.Options, RunCommand.Options, ListCommand.Options, HideCommand.Options>(toolArgs);
+			result
 				.WithParsed<RunCommand.Options>(RunCommand.OnParse)
 				.WithParsed<ListCommand.Options>(ListCommand.OnParse)
 				.WithParsed<HideCommand.Options>(HideCommand.OnParse)
 			;
+			result.WithParsedAsync<OpenCommand.Options>(OpenCommand.OnParseAsync);
+			result.WithParsedAsync<BuildCommand.Options>(BuildCommand.OnParseAsync);
+			result.WithParsedAsync<TestCommand.Options>(TestCommand.OnParseAsync);
+
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Andtech.Gooball
 {
@@ -18,18 +19,12 @@ namespace Andtech.Gooball
 			this.startInfo = startInfo;
 		}
 
-		public void Start()
+		public async Task RunAsync()
 		{
 			var helper = new UnityInstallationHelper();
 			var version = VersionUtility.Parse(startInfo.PreferredEditorVersion);
 			var editor = helper.GetBestEditor(version);
 
-			ExitCode = Execute(editor, startInfo);
-		}
-
-		private static int Execute(UnityEditor editor, UnityStartInfo startInfo)
-		{
-			int exitCode = 0;
 			var arguments = new List<string>(startInfo.Args);
 
 			var hadRequestedLogFile = ArgumentUtility.TryGetOption(startInfo.Args, "logFile", out var logFilePath);
@@ -66,7 +61,7 @@ namespace Andtech.Gooball
 
 					process.WaitForExit();
 
-					exitCode = process.ExitCode;
+					ExitCode = process.ExitCode;
 				}
 			}
 
@@ -75,8 +70,6 @@ namespace Andtech.Gooball
 				Console.WriteLine(File.ReadAllText(logFilePath));
 				File.Delete(logFilePath);
 			}
-
-			return exitCode;
 		}
 	}
 }

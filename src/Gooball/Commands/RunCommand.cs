@@ -22,7 +22,7 @@ namespace Andtech.Gooball
 				PreferredEditorVersion = Path.GetFileName(editor.VersionRaw)
 			};
 			var process = new UnityProcess(startInfo);
-			process.Start();
+			process.RunAsync();
 
 			Environment.Exit(process.ExitCode);
 		}
