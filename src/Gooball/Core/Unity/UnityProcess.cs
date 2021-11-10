@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Andtech.Gooball
 {
@@ -17,43 +20,64 @@ namespace Andtech.Gooball
 			this.startInfo = startInfo;
 		}
 
-		private int Execute(UnityEditor editor, IEnumerable<string> args)
-		{
-			var argsString = string.Join(" ", args.Select(WrapArgument));
-
-			if (startInfo.DryRun)
-			{
-				Console.WriteLine($"[DRY RUN] {editor.ExecutablePath} {argsString}");
-
-				return 0;
-			}
-
-			using (var process = new Process())
-			{
-				process.StartInfo.FileName = editor.ExecutablePath;
-				process.StartInfo.UseShellExecute = false;
-				process.StartInfo.RedirectStandardOutput = true;
-				process.StartInfo.Arguments = argsString;
-				process.Start();
-
-				process.WaitForExit();
-
-				return process.ExitCode;
-			}
-
-			string WrapArgument(string arg)
-			{
-				return $"\"{arg}\"";
-			}
-		}
-
-		public void Start()
+		public async Task RunAsync()
 		{
 			var helper = new UnityInstallationHelper();
 			var version = VersionUtility.Parse(startInfo.PreferredEditorVersion);
 			var editor = helper.GetBestEditor(version);
 
-			ExitCode = Execute(editor, startInfo.Args);
+			var arguments = new List<string>(startInfo.Args);
+
+			var isUsingExplicitLogFile = ArgumentUtility.TryGetOption(startInfo.Args, "logFile", out var logFilePath);
+			var isUsingTempLogFile = startInfo.Follow && !isUsingExplicitLogFile;
+			var isLogging = isUsingExplicitLogFile || isUsingTempLogFile;
+			if (isUsingTempLogFile)
+			{
+				logFilePath = Path.GetTempFileName();
+				arguments.Add("-logFile");
+				arguments.Add(logFilePath);
+			}
+
+			var argsString = string.Join(" ", arguments.Select(x => $"\"{x}\""));
+
+			if (startInfo.DryRun)
+			{
+				Console.WriteLine($"[DRY RUN] {editor.ExecutablePath} {argsString}");
+			}
+			else
+			{
+				var cts = new CancellationTokenSource();
+
+				if (isUsingExplicitLogFile)
+				{
+					File.WriteAllText(logFilePath, string.Empty);
+				}
+				if (isLogging)
+				{
+					var tail = new Tail(logFilePath);
+					tail.Listen(cancellationToken: cts.Token);
+				}
+
+				using (var process = new Process())
+				{
+					process.StartInfo.FileName = editor.ExecutablePath;
+					process.StartInfo.UseShellExecute = false;
+					process.StartInfo.RedirectStandardOutput = true;
+					process.StartInfo.Arguments = argsString;
+					process.Start();
+
+					process.WaitForExit();
+
+					ExitCode = process.ExitCode;
+				}
+
+				cts.Cancel();
+			}
+
+			if (isUsingTempLogFile)
+			{
+				File.Delete(logFilePath);
+			}
 		}
 	}
 }

@@ -26,14 +26,16 @@ namespace Andtech.Gooball
 			ToolArgs = toolArgs;
 			PassthroughArgs = passthroughArgs;
 
-			Parser.Default.ParseArguments<OpenCommand.Options, BuildCommand.Options, TestCommand.Options, RunCommand.Options, ListCommand.Options, HideCommand.Options>(toolArgs)
-				.WithParsed<OpenCommand.Options>(OpenCommand.OnParse)
-				.WithParsed<BuildCommand.Options>(BuildCommand.OnParse)
-				.WithParsed<TestCommand.Options>(TestCommand.OnParse)
+			var result = Parser.Default.ParseArguments<OpenCommand.Options, BuildCommand.Options, TestCommand.Options, RunCommand.Options, ListCommand.Options, HideCommand.Options>(toolArgs);
+			result
 				.WithParsed<RunCommand.Options>(RunCommand.OnParse)
 				.WithParsed<ListCommand.Options>(ListCommand.OnParse)
 				.WithParsed<HideCommand.Options>(HideCommand.OnParse)
 			;
+			result.WithParsedAsync<OpenCommand.Options>(OpenCommand.OnParseAsync);
+			result.WithParsedAsync<BuildCommand.Options>(BuildCommand.OnParseAsync);
+			result.WithParsedAsync<TestCommand.Options>(TestCommand.OnParseAsync);
+
 		}
 	}
 }

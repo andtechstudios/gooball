@@ -7,9 +7,10 @@ namespace Andtech.Gooball
 	{
 		public string PreferredEditorVersion { get; set; }
 		public bool DryRun { get; set; }
+		public bool Follow { get; set; }
 		public List<string> Args => args;
 
-		public readonly List<string> args;
+		private readonly List<string> args;
 
 		public UnityStartInfo(params string[] collection)
 		{
@@ -25,6 +26,7 @@ namespace Andtech.Gooball
 				startInfo.Args.Add(options.ProjectPath);
 			}
 			startInfo.DryRun = options.DryRun;
+			startInfo.Follow = options.Follow;
 
 			return startInfo;
 		}
@@ -46,6 +48,7 @@ namespace Andtech.Gooball
 				startInfo.Args.Add(options.ProjectPath);
 			}
 			startInfo.DryRun = options.DryRun;
+			startInfo.Follow = options.Follow;
 
 			return startInfo;
 		}
@@ -67,6 +70,7 @@ namespace Andtech.Gooball
 				startInfo.Args.Add(options.ProjectPath);
 			}
 			startInfo.DryRun = options.DryRun;
+			startInfo.Follow = options.Follow;
 
 			return startInfo;
 		}
