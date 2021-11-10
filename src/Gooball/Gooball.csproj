@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-		<Version>1.1.0-preview</Version>
+		<Version>1.1.0</Version>
 		<StartupObject>Andtech.Gooball.Program</StartupObject>
 	</PropertyGroup>
 
