@@ -54,12 +54,8 @@ namespace Andtech.Gooball
 				}
 				if (isLogging)
 				{
-					Console.ForegroundColor = ConsoleColor.Yellow;
-					Console.WriteLine($"Logfile at {logFilePath}");
-					Console.ResetColor();
-
-					var logger = new Tail(logFilePath);
-					logger.Listen(cts.Token);
+					var tail = new Tail(logFilePath);
+					tail.Listen(cancellationToken: cts.Token);
 				}
 
 				using (var process = new Process())
