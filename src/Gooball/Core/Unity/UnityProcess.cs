@@ -35,7 +35,7 @@ namespace Andtech.Gooball
 			if (isUsingTempLogFile)
 			{
 				logFilePath = Path.GetTempFileName();
-				logFilePath = Path.GetRelativePath(projectPath, logFilePath);
+				logFilePath = Path.GetRelativePath(Environment.CurrentDirectory, logFilePath);
 				arguments.Add("-logFile");
 				arguments.Add(logFilePath);
 			}
@@ -52,7 +52,12 @@ namespace Andtech.Gooball
 
 				if (isLogging)
 				{
-					File.WriteAllText(logFilePath, string.Empty);
+					try
+					{
+						File.WriteAllText(logFilePath, string.Empty);
+					}
+					catch { }
+
 					var tail = new Tail(logFilePath);
 					tail.Listen(cancellationToken: cts.Token);
 				}

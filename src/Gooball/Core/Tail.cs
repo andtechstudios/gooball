@@ -23,11 +23,6 @@ namespace Andtech.Gooball
 				{
 					cancellationToken.Register(ReadToEnd);
 
-					if (sr.BaseStream.Length > 1024)
-					{
-						sr.BaseStream.Seek(-512, SeekOrigin.End);
-					}
-
 					while (true)
 					{
 						string line = await sr.ReadLineAsync();
