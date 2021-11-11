@@ -34,8 +34,8 @@ namespace Andtech.Gooball
 			var isLogging = isUsingExplicitLogFile || isUsingTempLogFile;
 			if (isUsingTempLogFile)
 			{
-				logFilePath = Path.GetTempFileName();
-				logFilePath = Path.GetRelativePath(Environment.CurrentDirectory, logFilePath);
+				var fileName = $"LogFile-{DateTime.UtcNow.ToBinary()}.txt";
+				logFilePath = Path.Combine(projectPath, fileName);
 				arguments.Add("-logFile");
 				arguments.Add(logFilePath);
 			}
