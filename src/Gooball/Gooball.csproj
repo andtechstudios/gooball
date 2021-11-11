@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-		<Version>1.1.0</Version>
+		<Version>1.1.1</Version>
 		<StartupObject>Andtech.Gooball.Program</StartupObject>
 	</PropertyGroup>
 
@@ -17,8 +17,8 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<AssemblyName>Andtech.Gooball</AssemblyName>
-		<AssemblyVersion>1.1.0.0</AssemblyVersion>
-		<FileVersion>1.1.0.0</FileVersion>
+		<AssemblyVersion>1.1.1.0</AssemblyVersion>
+		<FileVersion>1.1.1.0</FileVersion>
 		<Product>Gooball</Product>
 		<RepositoryUrl>https://github.com/andtechstudios/gooball</RepositoryUrl>
 		<RootNamespace>Gooball</RootNamespace>
