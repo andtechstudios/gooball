@@ -28,12 +28,14 @@ namespace Andtech.Gooball
 
 			var arguments = new List<string>(startInfo.Args);
 
-			var isUsingExplicitLogFile = ArgumentUtility.TryGetOption(startInfo.Args, "logFile", out var logFilePath);
+			ArgumentUtility.TryGetOption(arguments, "projectPath", out var projectPath);
+			var isUsingExplicitLogFile = ArgumentUtility.TryGetOption(arguments, "logFile", out var logFilePath);
 			var isUsingTempLogFile = startInfo.Follow && !isUsingExplicitLogFile;
 			var isLogging = isUsingExplicitLogFile || isUsingTempLogFile;
 			if (isUsingTempLogFile)
 			{
 				logFilePath = Path.GetTempFileName();
+				logFilePath = Path.GetRelativePath(projectPath, logFilePath);
 				arguments.Add("-logFile");
 				arguments.Add(logFilePath);
 			}
@@ -48,12 +50,9 @@ namespace Andtech.Gooball
 			{
 				var cts = new CancellationTokenSource();
 
-				if (isUsingExplicitLogFile)
-				{
-					File.WriteAllText(logFilePath, string.Empty);
-				}
 				if (isLogging)
 				{
+					File.WriteAllText(logFilePath, string.Empty);
 					var tail = new Tail(logFilePath);
 					tail.Listen(cancellationToken: cts.Token);
 				}
