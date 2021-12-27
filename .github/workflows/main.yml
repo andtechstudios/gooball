@@ -1,22 +1,26 @@
-name: publish to nuget
+env:
+  NUGET_SOURCE_URL: https://api.nuget.org/v3/index.json
+  NUGET_PROJECT_DIR: src/Gooball/Gooball.csproj
+  NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
+
 on:
-  push:
-    branches:
-      - master
+  create:
+    tags:
+      - v*
   workflow_dispatch:
 
 jobs:
   publish:
-    name: build, pack & publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
-      - name: publish on version change
-        id: publish_nuget
-        uses: rohith/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: src/Gooball/Gooball.csproj
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      - run: |
+          version=$(git tag -l --sort=-v:refname | head -n 1)
+          version=${version/v/}
+          dotnet build --configuration Release "${{env.NUGET_PROJECT_DIR}}" /p:VersionPrefix="$version"
+          dotnet pack --configuration Release "${{env.NUGET_PROJECT_DIR}}" --no-build --output . /p:VersionPrefix="$version"
+      - run: |
+          dotnet nuget push *.nupkg --source "${{env.NUGET_SOURCE_URL}}" --api-key "${{env.NUGET_API_KEY}}" --skip-duplicate
