@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Andtech.Gooball
 {
@@ -8,7 +9,7 @@ namespace Andtech.Gooball
 	internal class HideCommand
 	{
 		[Verb("hide", HelpText = "Hide assets from the Unity asset database.")]
-		public class Options
+		public class Options : GooballOptions
 		{
 			[Value(0, Required = true, HelpText = "The path to the asset or folder to hide.")]
 			public string TargetPath { get; set; }
@@ -16,7 +17,7 @@ namespace Andtech.Gooball
 			public string PackagePath { get; set; }
 		}
 
-		public static void OnParse(Options options)
+		public async Task OnParseAsync(Options options)
 		{
 			if (string.IsNullOrEmpty(options.PackagePath))
 			{

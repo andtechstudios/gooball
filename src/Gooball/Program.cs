@@ -1,13 +1,11 @@
-﻿
+﻿using System.Threading.Tasks;
+
 namespace Andtech.Gooball
 {
 
 	internal class Program
 	{
 
-		private static void Main(string[] args)
-		{
-			Interpreter.Instance.Run(args);
-		}
+		private static async Task Main(string[] args) => await Interpreter.Instance.RunAsync(args);
 	}
 }

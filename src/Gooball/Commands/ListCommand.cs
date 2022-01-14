@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using System;
+using System.Threading.Tasks;
 
 namespace Andtech.Gooball
 {
@@ -7,17 +8,11 @@ namespace Andtech.Gooball
 	internal class ListCommand
 	{
 		[Verb("list", HelpText = "List installed editors.")]
-		public class Options
-		{
-			[Option("install-path", HelpText = "Location of Unity editor executables.")]
-			public string InstallPath { get; set; }
-		}
+		public class Options : GooballOptions { }
 
-		public static void OnParse(Options options)
+		public async Task OnParseAsync(Options options)
 		{
-			var installPath = options.InstallPath ?? null;
-			var installationHelper = new UnityInstallationHelper(installPath);
-			foreach (var editor in installationHelper.GetInstalledEditors())
+			foreach (var editor in Session.Instance.InstallationHelper.Editors)
 			{
 				Console.WriteLine($"{editor.VersionRaw} [{editor.ExecutablePath}]");
 			}

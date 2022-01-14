@@ -1,19 +1,32 @@
 ﻿using CommandLine;
+using System;
 using System.Threading.Tasks;
 
 namespace Andtech.Gooball
 {
-	internal class TestCommand : UnityProjectCommand<TestCommand.Options>
+
+	internal class TestCommand
 	{
 		[Verb("test", HelpText = "Run tests on Unity project.")]
-		internal class Options : UnityProjectOptions
+		internal class Options : GooballOptions
 		{
 			[Option("test-results", HelpText = "The path where Unity should save the result file.")]
 			public string TestResults { get; set; }
 		}
 
-		public static Task OnParseAsync(Options options) => new TestCommand().RunAsync(options);
-
-		protected override UnityStartInfo CreateStartInfo(Options options) => UnityStartInfo.Test(options, Interpreter.Instance.PassthroughArgs);
+		public async Task OnParseAsync(Options options)
+		{
+			var startInfo = UnityStartInfo.Test(options);
+			var process = new UnityProcess(startInfo);
+			try
+			{
+				await process.RunAsync();
+			}
+			catch
+			{
+				Environment.ExitCode = process.ExitCode;
+				throw;
+			}
+		}
 	}
 }

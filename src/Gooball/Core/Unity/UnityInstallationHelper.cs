@@ -9,10 +9,13 @@ namespace Andtech.Gooball
 
 	public class UnityInstallationHelper
 	{
+		public IEnumerable<UnityEditor> Editors => editors;
+
+		private readonly List<UnityEditor> editors;
 		private const string PATH_DEFAULT_WINDOWS = @"C:/Program Files/Unity/Hub/Editor";
 		private const string PATH_DEFAULT_OSX = @"/Applications/Unity/Hub/Editor";
 		private const string PATH_DEFAULT_LINUX = @"~/Unity/Hub/Editor";
-		private IEnumerable<string> DEFAULT_PATHS
+		private static IEnumerable<string> DEFAULT_PATHS
 		{
 			get
 			{
@@ -22,57 +25,76 @@ namespace Andtech.Gooball
 			}
 		}
 
-		private readonly Queue<string> editorSearchPaths;
-
-		public UnityInstallationHelper(string editorInstallationRoot = null)
+		public UnityInstallationHelper(string installRoot = null)
 		{
-			if (string.IsNullOrEmpty(editorInstallationRoot))
+			editors = GetEditors(installRoot);
+		}
+
+		private List<UnityEditor> GetEditors(string installRoot)
+		{
+			var searchPaths = new Queue<string>();
+			if (string.IsNullOrEmpty(installRoot))
 			{
-				editorSearchPaths = new Queue<string>(DEFAULT_PATHS);
+				searchPaths = new Queue<string>(DEFAULT_PATHS);
 			}
 			else
 			{
-				editorSearchPaths = new Queue<string>(1);
-				editorSearchPaths.Enqueue(editorInstallationRoot);
+				searchPaths = new Queue<string>(1);
+				searchPaths.Enqueue(installRoot);
 			}
-		}
 
-		public IEnumerable<UnityEditor> GetInstalledEditors()
-		{
 			var windowsDriveRegex = new Regex("^C:");
 
-			var wsl = editorSearchPaths
+			var wsl = searchPaths
 				.Where(x => windowsDriveRegex.IsMatch(x))
 				.Select(x => windowsDriveRegex.Replace(x, "/mnt/c"));
-			var roots = editorSearchPaths
+			var roots = searchPaths
 				.Concat(wsl);
 
 			foreach (var editorRoot in roots)
 			{
 				try
 				{
-					var editors = GetInstalledEditors(editorRoot);
+					var editors = EnumerateUnityEditors(editorRoot);
 					if (editors.Any())
 					{
-						return editors;
+						return editors.ToList();
 					}
 				}
 				catch (IOException) { }
 			}
 
-			return Enumerable.Empty<UnityEditor>();
+			return new List<UnityEditor>(0);
 		}
 
-		public UnityEditor GetBestEditor(Version version)
+		public UnityEditor GetEditor(string version = null)
 		{
-			var editors = GetInstalledEditors();
-			var versionHelper = new VersionSelectionHelper(editors.Select(x => x.Version));
-			var bestVersion = versionHelper.GetBestVersion(version);
+			// Latest
+			if (version == "latest")
+			{
+				return Editors.Last();
+			}
 
-			return editors.First(x => x.Version == bestVersion);
+			// Exact match
+			var matches = Editors.Where(x => x.VersionRaw == version);
+			if (matches.Any())
+			{
+				return matches.First();
+			}
+
+			// Next-highest
+			if (Version.TryParse(version, out var v))
+			{
+				var versionHelper = new VersionSelectionHelper(Editors.Select(x => x.Version));
+				var bestVersion = versionHelper.GetBestVersion(v);
+
+				return editors.FirstOrDefault(x => x.Version == bestVersion);
+			}
+
+			return null;
 		}
 
-		private IEnumerable<UnityEditor> GetInstalledEditors(string root)
+		private IEnumerable<UnityEditor> EnumerateUnityEditors(string root)
 		{
 			var editors =
 				from path in Directory.EnumerateDirectories(root, "*")
