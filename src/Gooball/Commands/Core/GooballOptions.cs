@@ -23,7 +23,7 @@ namespace Andtech.Gooball
 		public bool ForgetProjectPath { get; set; }
 		[Option("no-graphics", HelpText = "When you run this in batch mode, it does not initialize the graphics device.")]
 		public bool NoGraphics { get; set; }
-		[Option("editor-version", HelpText = "Describe which Unity Editor version to launch.")]
+		[Option("editor", HelpText = "Describe which Unity Editor version to launch.")]
 		public string EditorVersion { get; set; }
 
 		[Value(0, Required = false, Default = "./", HelpText = "The path to the Unity project.")]
