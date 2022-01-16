@@ -1,7 +1,6 @@
 ﻿using CommandLine;
 using System;
-using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace Andtech.Gooball
 {
@@ -9,22 +8,21 @@ namespace Andtech.Gooball
 	internal class RunCommand
 	{
 		[Verb("run", HelpText = "Run arbitrary Unity commands.")]
-		public class Options : BaseUnityOptions { }
+		public class Options : GooballOptions { }
 
-		public static void OnParse(Options options)
+		public async Task OnParseAsync(Options options)
 		{
-			var editorHelper = new UnityInstallationHelper();
-			var editor = editorHelper.GetInstalledEditors().First();
-
-			var startInfo = new UnityStartInfo(Interpreter.Instance.PassthroughArgs)
-			{
-				DryRun = options.DryRun,
-				PreferredEditorVersion = Path.GetFileName(editor.VersionRaw)
-			};
+			var startInfo = UnityStartInfo.Run(options);
 			var process = new UnityProcess(startInfo);
-			process.RunAsync();
-
-			Environment.Exit(process.ExitCode);
+			try
+			{
+				await process.RunAsync();
+			}
+			catch
+			{
+				Environment.ExitCode = process.ExitCode;
+				throw;
+			}
 		}
 	}
 }

@@ -1,8 +1,16 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Andtech.Gooball
 {
+
+	public class ProjectNotFoundException : Exception
+	{
+		public string Path { get; set; }
+
+		public ProjectNotFoundException(string message) : base(message) { }
+	}
 
 	/// <summary>
 	/// A Unity project.
@@ -21,13 +29,20 @@ namespace Andtech.Gooball
 
 		public static Project Read(string path)
 		{
-			var project = new Project(path)
+			try
 			{
-				Version = GetValue(System.IO.Path.Join(path, "ProjectSettings", "ProjectSettings.asset"), "bundleVersion"),
-				EditorVersion = GetValue(System.IO.Path.Join(path, "ProjectSettings", "ProjectVersion.txt"), "m_EditorVersion")
-			};
+				var project = new Project(path)
+				{
+					Version = GetValue(System.IO.Path.Join(path, "ProjectSettings", "ProjectSettings.asset"), "bundleVersion"),
+					EditorVersion = GetValue(System.IO.Path.Join(path, "ProjectSettings", "ProjectVersion.txt"), "m_EditorVersion")
+				};
 
-			return project;
+				return project;
+			}
+			catch (IOException)
+			{
+				throw new ProjectNotFoundException("Unable to find the specified Unity Project.") { Path = path };
+			}
 		}
 
 		private static string GetValue(string file, string key)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Andtech.Common;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -22,20 +23,15 @@ namespace Andtech.Gooball
 
 		public async Task RunAsync()
 		{
-			var helper = new UnityInstallationHelper();
-			var version = VersionUtility.Parse(startInfo.PreferredEditorVersion);
-			var editor = helper.GetBestEditor(version);
-
 			var arguments = new List<string>(startInfo.Args);
 
-			ArgumentUtility.TryGetOption(arguments, "projectPath", out var projectPath);
 			var isUsingExplicitLogFile = ArgumentUtility.TryGetOption(arguments, "logFile", out var logFilePath);
 			var isUsingTempLogFile = startInfo.Follow && !isUsingExplicitLogFile;
 			var isLogging = isUsingExplicitLogFile || isUsingTempLogFile;
 			if (isUsingTempLogFile)
 			{
 				var fileName = $"LogFile-{DateTime.UtcNow.ToBinary()}.txt";
-				logFilePath = Path.Combine(projectPath, fileName);
+				logFilePath = Path.Combine(startInfo.Project.Path, fileName);
 				arguments.Add("-logFile");
 				arguments.Add(logFilePath);
 			}
@@ -44,13 +40,13 @@ namespace Andtech.Gooball
 
 			if (startInfo.DryRun)
 			{
-				Console.WriteLine($"[DRY RUN] {editor.ExecutablePath} {argsString}");
+				Console.WriteLine($"[DRY RUN] {startInfo.Editor.ExecutablePath} {argsString}");
 			}
 			else
 			{
 				var cts = new CancellationTokenSource();
 
-				if (isLogging)
+				if (startInfo.Follow)
 				{
 					try
 					{
@@ -62,9 +58,11 @@ namespace Andtech.Gooball
 					tail.Listen(cancellationToken: cts.Token);
 				}
 
+				Log.WriteLine($"{startInfo.Editor.ExecutablePath} {argsString}", Verbosity.verbose);
+
 				using (var process = new Process())
 				{
-					process.StartInfo.FileName = editor.ExecutablePath;
+					process.StartInfo.FileName = startInfo.Editor.ExecutablePath;
 					process.StartInfo.UseShellExecute = false;
 					process.StartInfo.RedirectStandardOutput = true;
 					process.StartInfo.Arguments = argsString;

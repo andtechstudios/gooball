@@ -5,7 +5,8 @@ namespace Andtech.Gooball
 
 	internal class UnityStartInfo
 	{
-		public string PreferredEditorVersion { get; set; }
+		public UnityEditor Editor { get; set; }
+		public Project Project { get; set; }
 		public bool DryRun { get; set; }
 		public bool Follow { get; set; }
 		public List<string> Args => args;
@@ -17,60 +18,72 @@ namespace Andtech.Gooball
 			args = new List<string>(collection);
 		}
 
-		public static UnityStartInfo Open(UnityProjectOptions options, params string[] args)
-		{
-			var startInfo = new UnityStartInfo(args);
-			if (!ArgumentUtility.HasFlag(args, "projectPath"))
-			{
-				startInfo.Args.Add("-projectPath");
-				startInfo.Args.Add(options.ProjectPath);
-			}
-			startInfo.DryRun = options.DryRun;
-			startInfo.Follow = options.Follow;
+		public static UnityStartInfo Open(GooballOptions options) => Default(options, requireProject: true);
 
-			return startInfo;
-		}
-
-		public static UnityStartInfo Build(UnityProjectOptions options, params string[] args)
+		public static UnityStartInfo Build(GooballOptions options)
 		{
-			var startInfo = new UnityStartInfo(args);
-			if (!ArgumentUtility.HasFlag(args, "batchMode"))
+			var startInfo = Default(options, requireProject: true);
+			if (!ArgumentUtility.HasFlag(Session.Instance.PassthroughArgs, "batchMode"))
 			{
 				startInfo.Args.Add("-batchMode");
 			}
-			if (!ArgumentUtility.HasFlag(args, "quit"))
+			if (!ArgumentUtility.HasFlag(Session.Instance.PassthroughArgs, "quit"))
 			{
 				startInfo.Args.Add("-quit");
 			}
-			if (!ArgumentUtility.HasFlag(args, "projectPath"))
-			{
-				startInfo.Args.Add("-projectPath");
-				startInfo.Args.Add(options.ProjectPath);
-			}
-			startInfo.DryRun = options.DryRun;
-			startInfo.Follow = options.Follow;
 
 			return startInfo;
 		}
 
-		public static UnityStartInfo Test(UnityProjectOptions options, params string[] args)
+		public static UnityStartInfo Test(GooballOptions options)
 		{
-			var startInfo = new UnityStartInfo(args);
-			if (!ArgumentUtility.HasFlag(args, "runTests"))
+			var startInfo = Default(options, requireProject: true);
+			if (!ArgumentUtility.HasFlag(Session.Instance.PassthroughArgs, "runTests"))
 			{
 				startInfo.args.Add($"-runTests");
 			}
-			if (!ArgumentUtility.HasFlag(args, "batchMode"))
+			if (!ArgumentUtility.HasFlag(Session.Instance.PassthroughArgs, "batchMode"))
 			{
 				startInfo.Args.Add("-batchMode");
 			}
-			if (!ArgumentUtility.HasFlag(args, "projectPath"))
+
+			return startInfo;
+		}
+
+		public static UnityStartInfo Run(GooballOptions options) => Default(options);
+
+		private static UnityStartInfo Default(GooballOptions options, bool requireProject = false)
+		{
+			var args = Session.Instance.PassthroughArgs;
+			var startInfo = new UnityStartInfo(args)
 			{
-				startInfo.Args.Add("-projectPath");
-				startInfo.Args.Add(options.ProjectPath);
+				DryRun = options.DryRun,
+				Follow = options.Follow,
+			};
+
+			if (!ArgumentUtility.TryGetOption(args, "projectPath", out var projectPath))
+			{
+				projectPath = options.ProjectPath;
 			}
-			startInfo.DryRun = options.DryRun;
-			startInfo.Follow = options.Follow;
+
+			try
+			{
+				var project = Project.Read(projectPath);
+				startInfo.Editor = Session.Instance.GetEditor(project.EditorVersion);
+				startInfo.Project = project;
+
+				startInfo.Args.Add("-projectPath");
+				startInfo.Args.Add(projectPath);
+			}
+			catch (ProjectNotFoundException)
+			{
+				if (requireProject)
+				{
+					throw;
+				}
+
+				startInfo.Editor = Session.Instance.GetEditor();
+			}
 
 			return startInfo;
 		}
