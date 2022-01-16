@@ -20,7 +20,7 @@ jobs:
       - run: |
           version=$(git tag -l --sort=-v:refname | head -n 1)
           version=${version/v/}
-          dotnet build --configuration Release "${{env.NUGET_PROJECT_DIR}}" /p:VersionPrefix="$version"
-          dotnet pack --configuration Release "${{env.NUGET_PROJECT_DIR}}" --no-build --output . /p:VersionPrefix="$version"
+          dotnet build --configuration Release "${{env.NUGET_PROJECT_DIR}}" /p:Version="$version"
+          dotnet pack --configuration Release "${{env.NUGET_PROJECT_DIR}}" --no-build --output . /p:Version="$version"
       - run: |
           dotnet nuget push *.nupkg --source "${{env.NUGET_SOURCE_URL}}" --api-key "${{env.NUGET_API_KEY}}" --skip-duplicate
