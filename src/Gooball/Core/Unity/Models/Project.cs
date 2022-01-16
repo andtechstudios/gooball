@@ -45,13 +45,27 @@ namespace Andtech.Gooball
 			}
 		}
 
+		public void SetVersion(string value) => SetValue(
+			System.IO.Path.Join(Path, "ProjectSettings", "ProjectSettings.asset"),
+			"bundleVersion",
+			value
+		);
+
 		private static string GetValue(string file, string key)
 		{
 			string content = File.ReadAllText(file);
-			var pattern = $@"{key}:\s*([a-f0-9\.]+)";
+			var pattern = $@"{key}:\s*([^\n]+)";
 			var match = Regex.Match(content, pattern);
 
 			return match.Success ? match.Groups[1].Value : null;
+		}
+
+		private static void SetValue(string file, string key, string value)
+		{
+			string content = File.ReadAllText(file);
+			var pattern = $@"{key}:\s*([^\n]+)";
+			content = Regex.Replace(content, pattern, $"{key}: {value}");
+			File.WriteAllText(file, content);
 		}
 	}
 }
