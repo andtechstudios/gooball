@@ -17,34 +17,41 @@ namespace Andtech.Gooball
 
 		public async Task Listen(CancellationToken cancellationToken = default)
 		{
-			using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+			try
 			{
-				using (var sr = new StreamReader(fs))
+				using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 				{
-					cancellationToken.Register(ReadToEnd);
-
-					while (true)
+					using (var sr = new StreamReader(fs))
 					{
-						string line = await sr.ReadLineAsync();
+						cancellationToken.Register(ReadToEnd);
 
-						if (line != null)
+						while (true)
 						{
-							Console.WriteLine(line);
+							string line = await sr.ReadLineAsync();
+
+							if (line != null)
+							{
+								Console.WriteLine(line);
+							}
+
+							await Task.Delay(5, cancellationToken: cancellationToken);
 						}
 
-						await Task.Delay(5, cancellationToken: cancellationToken);
-					}
-
-					void ReadToEnd()
-					{
-						string line = sr.ReadToEnd();
-
-						if (line != null)
+						void ReadToEnd()
 						{
-							Console.WriteLine(line);
+							string line = sr.ReadToEnd();
+
+							if (line != null)
+							{
+								Console.WriteLine(line);
+							}
 						}
 					}
 				}
+			}
+			catch
+			{
+
 			}
 		}
 	}
