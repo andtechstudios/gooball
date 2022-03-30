@@ -16,7 +16,7 @@ namespace Andtech.Gooball
 		{
 			ArgumentUtility.SplitArgs(args, out var toolArgs, out var passthroughArgs);
 
-			var result = Parser.Default.ParseArguments<OpenCommand.Options, BuildCommand.Options, TestCommand.Options, RunCommand.Options, ListCommand.Options, HideCommand.Options, SetVersionCommand.Options>(toolArgs);
+			var result = Parser.Default.ParseArguments<OpenCommand.Options, BuildCommand.Options, TestCommand.Options, RunCommand.Options, ListCommand.Options, HideCommand.Options, SetVersionCommand.Options, ServeCommand.Options>(toolArgs);
 			await Wrap<OpenCommand.Options>(new OpenCommand().OnParseAsync);
 			await Wrap<BuildCommand.Options>(new BuildCommand().OnParseAsync);
 			await Wrap<TestCommand.Options>(new TestCommand().OnParseAsync);
@@ -24,6 +24,7 @@ namespace Andtech.Gooball
 			await Wrap<ListCommand.Options>(new ListCommand().OnParseAsync);
 			await Wrap<HideCommand.Options>(new HideCommand().OnParseAsync);
 			await Wrap<SetVersionCommand.Options>(new SetVersionCommand().OnParseAsync);
+			await Wrap<ServeCommand.Options>(new ServeCommand().OnParseAsync);
 
 			async Task Wrap<T>(Func<T, Task> action) where T : GooballOptions => await result.WithParsedAsync<T>(x => OnParse<T>(x, action));
 
