@@ -1,5 +1,3 @@
-[![GitHub tag](https://img.shields.io/nuget/v/Andtech.Gooball)](https://www.nuget.org/packages/Andtech.Gooball/)
-
 ## Setup
 
 ### Prerequisites
