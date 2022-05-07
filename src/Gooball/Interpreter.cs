@@ -51,11 +51,13 @@ namespace Andtech.Gooball
 				}
 				catch (ProjectNotFoundException)
 				{
-					Log.Error.WriteLine($"The directory is not a Unity project.", ConsoleColor.Red, Verbosity.minimal);
+					Log.Error.WriteLine($"The directory at '{options.ProjectPath}' is not a Unity project.", ConsoleColor.Red, Verbosity.minimal);
+					Environment.Exit(1);
 				}
 				catch (Exception ex)
 				{
 					Console.Error.WriteLine(ex);
+					Environment.Exit(1);
 				}
 			}
 		}
