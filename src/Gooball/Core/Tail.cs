@@ -3,15 +3,15 @@
 
 	internal class Tail
 	{
-		private readonly string directory;
-		private readonly string filename;
+		private readonly string path;
 		private readonly FileSystemWatcher watcher;
 		private StreamReader reader;
 
 		public Tail(string path)
 		{
-			filename = Path.GetFileName(path);
-			directory = Path.GetDirectoryName(path);
+			this.path = path;
+			var filename = Path.GetFileName(path);
+			var directory = Path.GetDirectoryName(path);
 			directory = string.IsNullOrEmpty(directory) ? Environment.CurrentDirectory : directory;
 
 			watcher = new FileSystemWatcher()
@@ -42,7 +42,7 @@
 		{
 			if (reader is null)
 			{
-				reader = new StreamReader(filename);
+				reader = new StreamReader(path);
 			}
 
 			Console.Write(reader.ReadToEnd());
