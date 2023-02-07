@@ -2,7 +2,8 @@
 using CommandLine;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
+using Andtech.Common;
+using CommandLine;
 
 namespace Andtech.Gooball
 {
@@ -10,7 +11,7 @@ namespace Andtech.Gooball
 	internal class ServeCommand
 	{
 		[Verb("serve", HelpText = "Start a local web server.")]
-		internal class Options : GooballOptions
+		internal class Options : BaseOptions
 		{
 			[Option(Default = 8080)]
 			public int Port { get; set; }

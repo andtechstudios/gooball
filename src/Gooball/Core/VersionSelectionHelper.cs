@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Andtech.Gooball
+﻿namespace Andtech.Gooball
 {
 
 	public class VersionSelectionHelper
@@ -39,9 +35,9 @@ namespace Andtech.Gooball
 		private IEnumerable<Version> HigherThan(Version heuristic)
 		{
 			return versions.Where(x =>
-				   x.Major > heuristic.Major ||
-				   x.Major >= heuristic.Major && x.Minor > heuristic.Minor ||
-				   x.Major >= heuristic.Major && x.Minor >= heuristic.Minor && x.Build > heuristic.Build);
+					x.Major > heuristic.Major ||
+					x.Major >= heuristic.Major && x.Minor > heuristic.Minor ||
+					x.Major >= heuristic.Major && x.Minor >= heuristic.Minor && x.Build > heuristic.Build);
 		}
 
 		private IEnumerable<Version> LowerThan(Version heuristic)

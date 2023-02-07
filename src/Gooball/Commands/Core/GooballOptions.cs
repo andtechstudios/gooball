@@ -4,7 +4,7 @@ using CommandLine;
 namespace Andtech.Gooball
 {
 
-	internal class GooballOptions
+	internal class BaseOptions
 	{
 		[Option("verbosity", HelpText = "Verbosity of logging")]
 		public Verbosity Verbosity { get; set; }

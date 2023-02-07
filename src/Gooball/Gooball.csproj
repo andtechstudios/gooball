@@ -1,58 +1,48 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<OutputType>Exe</OutputType>
-		<TargetFrameworks>net6.0</TargetFrameworks>
-		<Version></Version>
-		<StartupObject></StartupObject>
-	</PropertyGroup>
-
-	<!-- NuGet settings -->
-	<PropertyGroup>
-		<Deterministic>true</Deterministic>
-		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<RepositoryType>git</RepositoryType>
-		<PackageLicenseExpression></PackageLicenseExpression>
-		<AssemblyName>Andtech.Gooball</AssemblyName>
-		<AssemblyVersion></AssemblyVersion>
-		<FileVersion></FileVersion>
-		<Product>Gooball</Product>
+		<PackageId>Andtech.Gooball</PackageId>
+		<Authors>Andtech Studios</Authors>
 		<RepositoryUrl>https://github.com/andtechstudios/gooball</RepositoryUrl>
-		<RootNamespace>Gooball</RootNamespace>
-		<Company>Andtech Studios</Company>
-		<Authors>andtechstudios</Authors>
+		<Copyright>"© $(CompanyName) $([System.DateTime]::Now.ToString(`yyyy`))"</Copyright>
+		<TargetFrameworks>net7.0;net6.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
-	<!-- Linux Debugging -->
+	<!-- dotnet-tool -->
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<ToolCommandName>goo</ToolCommandName>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+	<Choose>
+		<When Condition=" '$(Configuration)'=='Release' ">
+			<PropertyGroup>
+				<PackAsTool>true</PackAsTool>
+			</PropertyGroup>
+		</When>
+	</Choose>
+
+	<!-- Linux development -->
 	<Choose>
 		<When Condition=" '$(Configuration)'=='Debug' ">
 			<PropertyGroup>
 				<RuntimeIdentifier>linux-x64</RuntimeIdentifier>
 			</PropertyGroup>
 		</When>
-		<Otherwise>
-			<PropertyGroup>
-				<PackAsTool>true</PackAsTool>
-			</PropertyGroup>
-		</Otherwise>
 	</Choose>
 
-	<!-- Dotnet Tool settings -->
+	<!-- NuGet Gallery -->
 	<PropertyGroup>
-		<PackageId>Andtech.Gooball</PackageId>
-		<ToolCommandName>goo</ToolCommandName>
-		<PackageOutputPath>./nupkg</PackageOutputPath>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<ApplicationIcon>icon.ico</ApplicationIcon>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageIconUrl />
-		
-		<!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
+
+		<ToolCommandName>goo</ToolCommandName>
+		<PackageOutputPath>./nupkg</PackageOutputPath>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Copyright>© Andtech Studios 2021</Copyright>
+		<Copyright>© Andtech Studios 2023</Copyright>
 		<PackageProjectUrl>https://github.com/andtechstudios/gooball</PackageProjectUrl>
 		<PackageTags>gooball;goo;unity;tool;cli</PackageTags>
 		<NeutralLanguage>English</NeutralLanguage>
@@ -76,13 +66,9 @@
 
 	<!-- Dependencies -->
 	<ItemGroup>
+		<PackageReference Include="Andtech.Common" Version="0.18.1" />
 		<PackageReference Include="CommandLineParser" Version="2.8.0" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-	  <PackageReference Include="Andtech.Common">
-	    <Version>0.6.0</Version>
-	  </PackageReference>
 	</ItemGroup>
 </Project>

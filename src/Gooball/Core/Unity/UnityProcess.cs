@@ -1,11 +1,5 @@
-﻿using Andtech.Common;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using Andtech.Common;
 
 namespace Andtech.Gooball
 {
@@ -44,18 +38,11 @@ namespace Andtech.Gooball
 			}
 			else
 			{
-				var cts = new CancellationTokenSource();
-
+				Tail tail = null;
 				if (startInfo.Follow)
 				{
-					try
-					{
-						File.WriteAllText(logFilePath, string.Empty);
-					}
-					catch { }
-
-					var tail = new Tail(logFilePath);
-					tail.Listen(cancellationToken: cts.Token);
+					Log.WriteLine($"Will tail logfile at '{logFilePath}'...", Verbosity.verbose);
+					tail = new Tail(logFilePath);
 				}
 
 				Log.WriteLine($"{startInfo.Editor.ExecutablePath} {argsString}", Verbosity.verbose);
@@ -63,17 +50,17 @@ namespace Andtech.Gooball
 				using (var process = new Process())
 				{
 					process.StartInfo.FileName = startInfo.Editor.ExecutablePath;
-					process.StartInfo.UseShellExecute = false;
-					process.StartInfo.RedirectStandardOutput = true;
+					//process.StartInfo.UseShellExecute = false;
+					process.StartInfo.RedirectStandardOutput = false;
 					process.StartInfo.Arguments = argsString;
-					process.Start();
 
+					tail?.Start();
+					process.Start();
 					process.WaitForExit();
+					tail?.Stop();
 
 					ExitCode = process.ExitCode;
 				}
-
-				cts.Cancel();
 			}
 
 			if (isUsingTempLogFile)

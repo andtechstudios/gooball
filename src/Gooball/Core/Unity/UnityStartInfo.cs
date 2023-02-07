@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Andtech.Gooball
+﻿namespace Andtech.Gooball
 {
 
 	internal class UnityStartInfo
@@ -18,9 +16,9 @@ namespace Andtech.Gooball
 			args = new List<string>(collection);
 		}
 
-		public static UnityStartInfo Open(GooballOptions options) => Default(options, requireProject: true);
+		public static UnityStartInfo Open(BaseOptions options) => Default(options, requireProject: true);
 
-		public static UnityStartInfo Build(GooballOptions options)
+		public static UnityStartInfo Build(BaseOptions options)
 		{
 			var startInfo = Default(options, requireProject: true);
 			if (!ArgumentUtility.HasFlag(Session.Instance.PassthroughArgs, "batchMode"))
@@ -35,7 +33,7 @@ namespace Andtech.Gooball
 			return startInfo;
 		}
 
-		public static UnityStartInfo Test(GooballOptions options)
+		public static UnityStartInfo Test(BaseOptions options)
 		{
 			var startInfo = Default(options, requireProject: true);
 			if (!ArgumentUtility.HasFlag(Session.Instance.PassthroughArgs, "runTests"))
@@ -50,9 +48,9 @@ namespace Andtech.Gooball
 			return startInfo;
 		}
 
-		public static UnityStartInfo Run(GooballOptions options) => Default(options);
+		public static UnityStartInfo Run(BaseOptions options) => Default(options);
 
-		private static UnityStartInfo Default(GooballOptions options, bool requireProject = false)
+		private static UnityStartInfo Default(BaseOptions options, bool requireProject = false)
 		{
 			var args = Session.Instance.PassthroughArgs;
 			var startInfo = new UnityStartInfo(args)

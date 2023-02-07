@@ -1,6 +1,15 @@
-﻿using CommandLine;
+﻿
+/* Unmerged change from project 'Gooball (net6.0)'
+Before:
+using CommandLine;
 using System;
 using System.Threading.Tasks;
+After:
+using System;
+using System.Threading.Tasks;
+using CommandLine;
+*/
+using CommandLine;
 
 namespace Andtech.Gooball
 {
@@ -8,7 +17,7 @@ namespace Andtech.Gooball
 	internal class ListCommand
 	{
 		[Verb("list", HelpText = "List installed editors.")]
-		public class Options : GooballOptions { }
+		public class Options : BaseOptions { }
 
 		public async Task OnParseAsync(Options options)
 		{

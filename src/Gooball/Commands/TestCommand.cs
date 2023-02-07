@@ -1,6 +1,7 @@
-﻿using CommandLine;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Andtech.Common;
+using CommandLine;
 
 namespace Andtech.Gooball
 {
@@ -8,7 +9,7 @@ namespace Andtech.Gooball
 	internal class TestCommand
 	{
 		[Verb("test", HelpText = "Run tests on Unity project.")]
-		internal class Options : GooballOptions
+		internal class Options : BaseOptions
 		{
 			[Option("test-results", HelpText = "The path where Unity should save the result file.")]
 			public string TestResults { get; set; }
@@ -21,6 +22,11 @@ namespace Andtech.Gooball
 			try
 			{
 				await process.RunAsync();
+			}
+			catch (ProjectNotFoundException)
+			{
+				Log.Error.WriteLine($"The directory at '{options.ProjectPath}' is not a Unity project.", ConsoleColor.Red, Verbosity.minimal);
+				Environment.Exit(1);
 			}
 			catch
 			{

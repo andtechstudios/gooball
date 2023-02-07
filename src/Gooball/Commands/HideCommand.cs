@@ -1,7 +1,13 @@
-﻿using CommandLine;
+﻿
+/* Unmerged change from project 'Gooball (net6.0)'
+Before:
+using CommandLine;
 using System.IO;
+After:
+using System.IO;
+*/
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using CommandLine;
 
 namespace Andtech.Gooball
 {
@@ -9,7 +15,7 @@ namespace Andtech.Gooball
 	internal class HideCommand
 	{
 		[Verb("hide", HelpText = "Hide assets from the Unity asset database.")]
-		public class Options : GooballOptions
+		public class Options : BaseOptions
 		{
 			[Value(0, Required = true, HelpText = "The path to the asset or folder to hide.")]
 			public string TargetPath { get; set; }
