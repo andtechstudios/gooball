@@ -24,8 +24,8 @@ namespace Andtech.Gooball
 			var isLogging = isUsingExplicitLogFile || isUsingTempLogFile;
 			if (isUsingTempLogFile)
 			{
-				var fileName = $"LogFile-{DateTime.UtcNow.ToBinary()}.txt";
-				logFilePath = Path.Combine(startInfo.Project.Path, fileName);
+				var fileName = $"log-{DateTime.UtcNow.ToBinary()}.txt";
+				logFilePath = Path.Combine(startInfo.Project.Path, "Logs", fileName);
 				arguments.Add("-logFile");
 				arguments.Add(logFilePath);
 			}
@@ -42,6 +42,10 @@ namespace Andtech.Gooball
 				if (startInfo.Follow)
 				{
 					Log.WriteLine($"Will tail logfile at '{logFilePath}'...", Verbosity.verbose);
+					if (File.Exists(logFilePath))
+					{
+						File.Delete(logFilePath);
+					}
 					tail = new Tail(logFilePath);
 				}
 
@@ -52,24 +56,18 @@ namespace Andtech.Gooball
 					process.StartInfo.FileName = startInfo.Editor.ExecutablePath;
 					process.StartInfo.Arguments = argsString;
 
-					Thread thread = null;
-					if (tail != null)
-					{
-						thread = new Thread(tail.Start);
-					}
-
-					thread?.Start();
+					var cts = new CancellationTokenSource();
 					process.Start();
-					await process.WaitForExitAsync();
-					tail?.Stop();
+					var mainTask = process.WaitForExitAsync(cancellationToken: cts.Token);
+					var tailTask = tail?.RunAsync(cancellationToken: cts.Token);
+
+					await Task.WhenAny(mainTask, tailTask);
+
+					cts.Cancel();
+					cts.Dispose();
 
 					ExitCode = process.ExitCode;
 				}
-			}
-
-			if (isUsingTempLogFile)
-			{
-				File.Delete(logFilePath);
 			}
 		}
 	}

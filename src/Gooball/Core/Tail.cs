@@ -4,48 +4,36 @@
 	internal class Tail
 	{
 		private readonly string path;
-		private readonly FileSystemWatcher watcher;
 		private StreamReader reader;
+		private int pollingInterval = 20;
 
 		public Tail(string path)
 		{
 			this.path = path;
-			var filename = Path.GetFileName(path);
-			var directory = Path.GetDirectoryName(path);
-			directory = string.IsNullOrEmpty(directory) ? Environment.CurrentDirectory : directory;
+		}
 
-			watcher = new FileSystemWatcher()
+		public async Task RunAsync(CancellationToken cancellationToken = default)
+		{
+			while (!cancellationToken.IsCancellationRequested)
 			{
-				Path = directory,
-				Filter = filename,
-			};
-			watcher.Changed += new FileSystemEventHandler(OnChanged);
-		}
+				Dump();
+				await Task.Delay(pollingInterval, cancellationToken: cancellationToken);
+			}
 
-		public void Start()
-		{
-			watcher.EnableRaisingEvents = true;
-		}
-
-		public void Stop()
-		{
-			watcher.EnableRaisingEvents = false;
-			Dump();
-		}
-
-		void OnChanged(object source, FileSystemEventArgs e)
-		{
 			Dump();
 		}
 
 		void Dump()
 		{
-			if (reader is null)
+			if (reader is null && File.Exists(path))
 			{
 				reader = new StreamReader(path);
 			}
 
-			Console.Write(reader.ReadToEnd());
+			if (!(reader?.EndOfStream) ?? false)
+			{
+				Console.Write(reader.ReadToEnd());
+			}
 		}
 	}
 }
