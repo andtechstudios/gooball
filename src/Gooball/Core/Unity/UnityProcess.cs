@@ -50,13 +50,17 @@ namespace Andtech.Gooball
 				using (var process = new Process())
 				{
 					process.StartInfo.FileName = startInfo.Editor.ExecutablePath;
-					//process.StartInfo.UseShellExecute = false;
-					process.StartInfo.RedirectStandardOutput = false;
 					process.StartInfo.Arguments = argsString;
 
-					tail?.Start();
+					Thread thread = null;
+					if (tail != null)
+					{
+						thread = new Thread(tail.Start);
+					}
+
+					thread?.Start();
 					process.Start();
-					process.WaitForExit();
+					await process.WaitForExitAsync();
 					tail?.Stop();
 
 					ExitCode = process.ExitCode;
