@@ -38,30 +38,26 @@ namespace Andtech.Gooball
 			}
 			else
 			{
-				Tail tail = null;
-				if (startInfo.Follow)
+				if (File.Exists(logFilePath))
 				{
-					Log.WriteLine($"Will tail logfile at '{logFilePath}'...", Verbosity.verbose);
-					if (File.Exists(logFilePath))
-					{
-						File.Delete(logFilePath);
-					}
-					tail = new Tail(logFilePath);
+					File.Delete(logFilePath);
 				}
-
-				Log.WriteLine($"{startInfo.Editor.ExecutablePath} {argsString}", Verbosity.verbose);
 
 				using (var process = new Process())
 				{
+					var cts = new CancellationTokenSource();
+					if (startInfo.Follow)
+					{
+						Log.WriteLine($"Will tail logfile at '{logFilePath}'...", Verbosity.verbose);
+						var tail = new Tail(logFilePath);
+						tail?.RunAsync(cancellationToken: cts.Token);
+					}
+
+					Log.WriteLine($"{startInfo.Editor.ExecutablePath} {argsString}", Verbosity.verbose);
 					process.StartInfo.FileName = startInfo.Editor.ExecutablePath;
 					process.StartInfo.Arguments = argsString;
-
-					var cts = new CancellationTokenSource();
 					process.Start();
-					var mainTask = process.WaitForExitAsync(cancellationToken: cts.Token);
-					var tailTask = tail?.RunAsync(cancellationToken: cts.Token);
-
-					await Task.WhenAny(mainTask, tailTask);
+					await process.WaitForExitAsync(cancellationToken: cts.Token);
 
 					cts.Cancel();
 					cts.Dispose();
