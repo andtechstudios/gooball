@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using Andtech.Common;
+using CliWrap;
+using CliWrap.Buffered;
 
 namespace Andtech.Gooball
 {
@@ -7,6 +9,7 @@ namespace Andtech.Gooball
 	internal class UnityProcess
 	{
 		public int ExitCode { get; set; }
+		public bool EnableWSLMode { get; set; }
 
 		private readonly UnityStartInfo startInfo;
 
@@ -53,11 +56,30 @@ namespace Andtech.Gooball
 						tail?.RunAsync(cancellationToken: cts.Token);
 					}
 
-					Log.WriteLine($"{startInfo.Editor.ExecutablePath} {argsString}", Verbosity.verbose);
 					process.StartInfo.FileName = startInfo.Editor.ExecutablePath;
 					process.StartInfo.Arguments = argsString;
+					if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WSLENV")))
+					{
+						if (EnableWSLMode)
+						{
+							var wslArgs = new List<string>()
+							{
+								"-w",
+								startInfo.Editor.ExecutablePath,
+							};
+							var result = await Cli.Wrap("wslpath")
+								.WithArguments(wslArgs)
+								.ExecuteBufferedAsync(cts.Token);
+
+							process.StartInfo.Arguments = $"Start-Process '{result.StandardOutput.Trim()}' -Wait -ArgumentList '{argsString}'";
+							process.StartInfo.FileName = "powershell.exe";
+						}
+					}
+
+					Log.WriteLine($"{process.StartInfo.FileName} {process.StartInfo.Arguments}", Verbosity.verbose);
 					process.Start();
 					await process.WaitForExitAsync(cancellationToken: cts.Token);
+					Log.WriteLine($"Process ended with exit code {process.ExitCode}", Verbosity.verbose);
 
 					cts.Cancel();
 					cts.Dispose();

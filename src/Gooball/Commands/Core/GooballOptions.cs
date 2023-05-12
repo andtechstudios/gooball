@@ -32,5 +32,8 @@ namespace Andtech.Gooball
 		public bool Follow { get; set; }
 		[Option("dumplog", HelpText = "Output appended data as the Unity log grows. (same as follow)")]
 		public bool DumpLog { get; set; }
+
+		[Option("no-powershell-shim", HelpText = "Prevents Gooball from launching Unity through a powershell shim process")]
+		public bool DisablePowershellShim { get; set; } = false;
 	}
 }

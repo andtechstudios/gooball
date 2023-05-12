@@ -12,7 +12,10 @@ namespace Andtech.Gooball
 		public async Task OnParseAsync(Options options)
 		{
 			var startInfo = UnityStartInfo.Build(options);
-			var process = new UnityProcess(startInfo);
+			var process = new UnityProcess(startInfo)
+			{
+				EnableWSLMode = !options.DisablePowershellShim,
+			};
 			try
 			{
 				await process.RunAsync();
