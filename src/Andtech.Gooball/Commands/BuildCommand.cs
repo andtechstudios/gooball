@@ -19,6 +19,7 @@ namespace Andtech.Gooball
 			try
 			{
 				await process.RunAsync();
+				Environment.ExitCode = process.ExitCode;
 			}
 			catch (ProjectNotFoundException)
 			{
