@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gooball\Gooball.csproj" />
+    <ProjectReference Include="..\Andtech.Gooball\Andtech.Gooball.csproj" />
   </ItemGroup>
 
   <ItemGroup>
