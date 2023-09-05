@@ -1,6 +1,6 @@
 env:
   NUGET_SOURCE_URL: https://api.nuget.org/v3/index.json
-  NUGET_PROJECT_DIR: src/Gooball/Gooball.csproj
+  NUGET_PROJECT_DIR: src/Andtech.Gooball/Andtech.Gooball.csproj
   NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
 
 on:
