@@ -4,7 +4,7 @@
 		<Authors>Andtech Studios</Authors>
 		<RepositoryUrl>https://github.com/andtechstudios/gooball</RepositoryUrl>
 		<Copyright>"© $(CompanyName) $([System.DateTime]::Now.ToString(`yyyy`))"</Copyright>
-		<TargetFrameworks>net7.0;net6.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net6.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
