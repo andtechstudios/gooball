@@ -79,7 +79,7 @@ namespace Andtech.Gooball
 					Log.WriteLine($"{process.StartInfo.FileName} {process.StartInfo.Arguments}", Verbosity.verbose);
 					process.Start();
 					await process.WaitForExitAsync(cancellationToken: cts.Token);
-					Log.WriteLine($"Process ended with exit code {process.ExitCode}", Verbosity.verbose);
+					Console.WriteLine($"[Gooball] Unity process ended with exit code {process.ExitCode}");
 
 					cts.Cancel();
 					cts.Dispose();
