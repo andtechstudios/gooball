@@ -33,6 +33,7 @@ namespace Andtech.Gooball
 
 			var process = Process.Start(serverBinary, $"\"{options.ProjectPath}\" \"{options.Port}\"");
 			await process.WaitForExitAsync();
+			Environment.ExitCode = process.ExitCode;
 		}
 	}
 }
